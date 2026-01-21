@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>InmoClicRD | Alquileres y Ventas</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<header class="header">
+  <div class="container header-content">
+    <h1 class="logo">InmoClicRD</h1>
+    <nav>
+      <button class="btn-outline">Iniciar sesión</button>
+      <button class="btn-primary">Publicar propiedad</button>
+    </nav>
+  </div>
+</header>
+
+<section class="filters">
+  <div class="container filters-content">
+
+    <select id="filter-type">
+      <option value="">Tipo de inmueble</option>
+      <option value="Casa">Casa</option>
+      <option value="Apartamento">Apartamento</option>
+      <option value="Habitación">Habitación</option>
+    </select>
+
+    <select id="filter-city">
+      <option value="">Ubicación</option>
+      <option value="Santo Domingo">Santo Domingo</option>
+      <option value="Santiago">Santiago</option>
+    </select>
+
+    <select id="filter-operation">
+      <option value="">Operación</option>
+      <option value="Alquiler">Alquiler</option>
+      <option value="Venta">Venta</option>
+    </select>
+
+    <button id="btnSearch" class="btn-secondary">Buscar</button>
+    <button id="btn-clear" class="btn-outline">Limpiar</button>
+
+  </div>
+</section>
+
+  </div>
+</section>
+
+<main class="container properties" id="property-list">
+  <!-- JS inyecta propiedades aquí -->
+</main>
+
+<footer class="footer">
+  <p>© 2026 InmoClicRD · Plataforma inmobiliaria en República Dominicana</p>
+</footer>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
