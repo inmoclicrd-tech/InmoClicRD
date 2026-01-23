@@ -15,29 +15,41 @@
 <main class="property-detail">
 
   <section class="gallery">
-    <img id="image" src="" alt="Propiedad">
-  </section>
+
+  <div class="gallery-main">
+    <img id="main-image" src="" alt="Propiedad">
+  </div>
+
+  <div class="gallery-thumbs" id="gallery-thumbs">
+    <!-- Miniaturas dinámicas -->
+  </div>
+
+</section>
+
 
   <section class="property-info">
-    <h2 id="title"></h2>
     <p class="price" id="price"></p>
+    <h2 id="title"></h2>
     <p class="location" id="location"></p>
 
     <div class="features">
-      <span id="rooms"></span>
-      <span id="baths"></span>
-      <span id="parking"></span>
+      <span>🛏 <strong id="rooms"></strong></span>
+      <span>🚿 <strong id="baths"></strong></span>
+      <span>🚗 <strong id="parking"></strong></span>
     </div>
 
     <p class="description" id="description"></p>
 
     <div class="actions">
-      <a id="whatsapp" class="btn-primary" target="_blank">Contactar por WhatsApp</a>
+      <a id="whatsapp" class="btn-primary" target="_blank">
+        Contactar por WhatsApp
+      </a>
       <button class="btn-secondary">Llamar</button>
     </div>
   </section>
 
 </main>
+
 
 <script src="data.js"></script>
 <script src="property.js"></script>

@@ -11,12 +11,14 @@
 <header class="header">
   <div class="container header-content">
     <h1 class="logo">InmoClicRD</h1>
-    <nav>
-      <button class="btn-outline">Iniciar sesión</button>
-      <button class="btn-primary">Publicar propiedad</button>
+
+    <nav class="header-actions">
+      <a href="#" class="btn-login" id="login-btn">Iniciar sesión</a>
+      <a href="publicar.html" class="btn-primary">Publicar propiedad</a>
     </nav>
   </div>
 </header>
+
 
 <section class="filters">
   <div class="container filters-content">
@@ -46,18 +48,81 @@
   </div>
 </section>
 
-  </div>
-</section>
-
 <main class="container properties" id="property-list">
   <!-- JS inyecta propiedades aquí -->
 </main>
+<section class="how-it-works">
+  <div class="container">
+    <h2>¿Cómo funciona InmoClicRD?</h2>
+
+    <div class="steps">
+      <div class="step">
+        <span>1</span>
+        <h3>Explora propiedades</h3>
+        <p>Busca casas, apartamentos o habitaciones disponibles en tu zona.</p>
+      </div>
+
+      <div class="step">
+        <span>2</span>
+        <h3>Contacta directo</h3>
+        <p>Habla directamente con el propietario o intermediario por WhatsApp.</p>
+      </div>
+
+      <div class="step">
+        <span>3</span>
+        <h3>Cierra el acuerdo</h3>
+        <p>Visita la propiedad y acuerda sin intermediarios innecesarios.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
 <footer class="footer">
-  <p>© 2026 InmoClicRD · Plataforma inmobiliaria en República Dominicana</p>
+  <div class="container footer-content">
+
+    <div class="footer-brand">
+      <h3>InmoClicRD</h3>
+      <p>
+        Plataforma inmobiliaria enfocada en alquileres y ventas
+        en República Dominicana.
+      </p>
+    </div>
+
+    <div class="footer-links">
+      <h4>Plataforma</h4>
+      <a href="about.html">Quiénes somos</a>
+      <a href="#">Cómo funciona</a>
+      <a href="#">Publicar propiedad</a>
+      <a href="confianza.html">Confianza y Seguridad</a>
+    </div>
+
+    <div class="footer-contact">
+      <h4>Contacto</h4>
+      <p>📍 República Dominicana</p>
+      <p>📞 WhatsApp: +1 809 000 0000</p>
+      <p>✉️ contacto@inmoclicrd.com</p>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    © 2026 InmoClicRD · Todos los derechos reservados
+  </div>
 </footer>
+
 
 <script src="data.js"></script>
 <script src="app.js"></script>
+<!-- Modal Próximamente -->
+<div id="coming-soon-modal" class="modal">
+  <div class="modal-content">
+    <h3>Próximamente 🚀</h3>
+    <p>
+      El inicio de sesión estará disponible muy pronto.
+      Estamos trabajando para ofrecerte una experiencia segura y confiable.
+    </p>
+    <button class="btn-primary" id="close-modal">Entendido</button>
+  </div>
+</div>
 </body>
 </html>
