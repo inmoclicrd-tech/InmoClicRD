@@ -13,16 +13,19 @@
     <h1 class="logo">InmoClicRD</h1>
 
     <nav class="header-actions">
+      <div id="user-info" style="display: none; align-items: center; gap: 10px;">
+        <span id="user-display-name" style="font-weight: 600; font-size: 0.9rem; color: white;"></span>
+        <span class="online-dot"></span>
+      </div>
+
       <a href="#" class="btn-login" id="login-btn">Iniciar sesión</a>
       <a href="publicar.html" class="btn-primary">Publicar propiedad</a>
     </nav>
   </div>
 </header>
 
-
 <section class="filters">
   <div class="container filters-content">
-
     <select id="filter-type">
       <option value="">Tipo de inmueble</option>
       <option value="Casa">Casa</option>
@@ -36,38 +39,34 @@
       <option value="Santiago">Santiago</option>
     </select>
 
-    <select id="filter-operation">
-      <option value="">Operación</option>
-      <option value="Alquiler">Alquiler</option>
-      <option value="Venta">Venta</option>
-    </select>
+    <div class="price-inputs">
+      <input type="number" id="filter-min-price" placeholder="Mín (RD$)">
+      <input type="number" id="filter-max-price" placeholder="Máx (RD$)">
+    </div>
 
-    <button id="btnSearch" class="btn-secondary">Buscar</button>
-    <button id="btn-clear" class="btn-outline">Limpiar</button>
-
+    <button class="btn-primary" id="btnSearch">Buscar</button>
+    <button class="btn-outline" id="btn-clear">Limpiar</button>
   </div>
 </section>
 
-<main class="container properties" id="property-list">
-  <!-- JS inyecta propiedades aquí -->
+<main class="container">
+  <div id="properties-grid" class="properties-grid"></div>
 </main>
+
 <section class="how-it-works">
   <div class="container">
     <h2>¿Cómo funciona InmoClicRD?</h2>
-
     <div class="steps">
       <div class="step">
         <span>1</span>
         <h3>Explora propiedades</h3>
         <p>Busca casas, apartamentos o habitaciones disponibles en tu zona.</p>
       </div>
-
       <div class="step">
         <span>2</span>
         <h3>Contacta directo</h3>
         <p>Habla directamente con el propietario o intermediario por WhatsApp.</p>
       </div>
-
       <div class="step">
         <span>3</span>
         <h3>Cierra el acuerdo</h3>
@@ -79,50 +78,52 @@
 
 <footer class="footer">
   <div class="container footer-content">
-
     <div class="footer-brand">
       <h3>InmoClicRD</h3>
-      <p>
-        Plataforma inmobiliaria enfocada en alquileres y ventas
-        en República Dominicana.
-      </p>
+      <p>Plataforma inmobiliaria enfocada en alquileres y ventas en República Dominicana.</p>
     </div>
 
     <div class="footer-links">
       <h4>Plataforma</h4>
-      <a href="about.html">Quiénes somos</a>
-      <a href="#">Cómo funciona</a>
-      <a href="#">Publicar propiedad</a>
-      <a href="confianza.html">Confianza y Seguridad</a>
+      <div class="footer-column-links">
+        <a href="index.html" class="footer-nav-item">Inicio</a>
+        <a href="publicar.html" class="footer-nav-item">Publicar Propiedad</a>
+        <a href="confianza.html" class="footer-nav-item">Confianza y Seguridad</a>
+      </div>
     </div>
 
     <div class="footer-contact">
       <h4>Contacto</h4>
       <p>📍 República Dominicana</p>
       <p>📞 WhatsApp: +1 809 000 0000</p>
-      <p>✉️ contacto@inmoclicrd.com</p>
     </div>
-
   </div>
-
   <div class="footer-bottom">
     © 2026 InmoClicRD · Todos los derechos reservados
   </div>
 </footer>
 
-
-<script src="data.js"></script>
-<script src="app.js"></script>
-<!-- Modal Próximamente -->
-<div id="coming-soon-modal" class="modal">
+<div id="auth-modal" class="modal">
   <div class="modal-content">
-    <h3>Próximamente 🚀</h3>
-    <p>
-      El inicio de sesión estará disponible muy pronto.
-      Estamos trabajando para ofrecerte una experiencia segura y confiable.
+    <h2 id="auth-title">Iniciar Sesión</h2>
+    <p id="auth-msg" style="color: #e74c3c; font-size: 0.9rem; margin-bottom: 10px; display: none;"></p>
+
+    <form id="auth-form">
+      <input type="text" id="auth-name" placeholder="Tu nombre completo" class="auth-input" style="display: none;">
+      <input type="email" id="auth-email" placeholder="Correo electrónico" required class="auth-input">
+      <input type="password" id="auth-password" placeholder="Contraseña" required class="auth-input">
+      <button type="submit" id="auth-submit-btn" class="btn-primary" style="width: 100%; margin-top: 10px;">
+        Entrar
+      </button>
+    </form>
+
+    <p class="auth-switch" style="margin-top: 15px; font-size: 0.85rem;">
+      ¿No tienes cuenta? <a href="#" id="toggle-auth" style="color: var(--primary); font-weight: bold;">Regístrate aquí</a>
     </p>
-    <button class="btn-primary" id="close-modal">Entendido</button>
+    <button id="close-auth" style="margin-top: 15px; background: none; border: none; color: #888; cursor: pointer;">Cerrar</button>
   </div>
 </div>
+
+<script type="module" src="app.js"></script>
 </body>
 </html>

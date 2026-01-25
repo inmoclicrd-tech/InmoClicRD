@@ -1,57 +1,116 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>Detalle de Propiedad | InmoClicRD</title>
-  <link rel="stylesheet" href="styles.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle - InmoClicRD</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <header class="header">
+        <div class="container header-content">
+            <a href="index.html" class="logo">InmoClicRD</a>
+            <a href="index.html" class="btn-secondary">Volver</a>
+        </div>
+    </header>
 
-<header class="header">
-  <h1>InmoClicRD</h1>
-  <a href="index.html" class="btn-secondary">Volver</a>
-</header>
+    <main class="container" style="margin-top: 20px;">
+        <div class="property-detail-layout" style="display: grid; grid-template-columns: 1fr 350px; gap: 30px;">
 
-<main class="property-detail">
+            <div class="main-column">
+                <div class="gallery-container">
+                    <img id="main-display" src="" style="width:100%; height:450px; object-fit:cover; border-radius:12px;">
+                    <div id="thumb-list" style="display:flex; gap:10px; margin-top:10px; overflow-x:auto; padding-bottom:5px;"></div>
+                </div>
 
-  <section class="gallery">
+                <div class="description-section" style="background:white; padding:25px; border-radius:12px; margin-top:20px; box-shadow:var(--shadow);">
+                    <h3>Descripción</h3>
+                    <p id="prop-desc" style="white-space: pre-line; margin-top:10px;"></p>
+                </div>
+            </div>
 
-  <div class="gallery-main">
-    <img id="main-image" src="" alt="Propiedad">
-  </div>
+            <div class="side-panel">
+                <div style="background:white; padding:25px; border-radius:12px; box-shadow:var(--shadow); position:sticky; top:100px;">
+                    <button id="btn-report" style="float:right; border:none; background:none; color:red; cursor:pointer;">🚩 Reportar</button>
+                    <h1 id="prop-title" style="font-size:1.5rem;">Cargando...</h1>
+                    <p id="prop-location" style="color:#666;"></p>
+                    <h2 id="prop-price" style="color:var(--primary); font-size:1.8rem; margin:15px 0;">RD$ 0</h2>
 
-  <div class="gallery-thumbs" id="gallery-thumbs">
-    <!-- Miniaturas dinámicas -->
-  </div>
+                    <div class="features-list" style="border-top:1px solid #eee; padding-top:15px;">
+                        <p id="feat-rooms">🛏️ -- Hab</p>
+                        <p id="feat-baths">🚿 -- Baños</p>
+                        <p id="feat-parking">🚗 -- Parqueos</p>
+                    </div>
 
-</section>
+                    <a id="whatsapp-link" href="#" target="_blank" class="btn-primary" style="display:block; text-align:center; padding:15px; margin-top:20px; background:#25D366; text-decoration:none;">
+                        Contacto via Whatsapp
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
 
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, doc, getDoc, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-  <section class="property-info">
-    <p class="price" id="price"></p>
-    <h2 id="title"></h2>
-    <p class="location" id="location"></p>
+        const firebaseConfig = {
+            apiKey: "AIzaSyADDo7xxarlsQcZ37ZEQRBaM1U_rVm8ngg",
+            authDomain: "inmoclicrd-e58e8.firebaseapp.com",
+            projectId: "inmoclicrd-e58e8",
+            storageBucket: "inmoclicrd-e58e8.firebasestorage.app",
+            messagingSenderId: "780365012646",
+            appId: "1:780365012646:web:2e0feff94c426f8287de67"
+        };
 
-    <div class="features">
-      <span>🛏 <strong id="rooms"></strong></span>
-      <span>🚿 <strong id="baths"></strong></span>
-      <span>🚗 <strong id="parking"></strong></span>
-    </div>
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
 
-    <p class="description" id="description"></p>
+        const propertyId = new URLSearchParams(window.location.search).get("id");
 
-    <div class="actions">
-      <a id="whatsapp" class="btn-primary" target="_blank">
-        Contactar por WhatsApp
-      </a>
-      <button class="btn-secondary">Llamar</button>
-    </div>
-  </section>
+        async function load() {
+            if (!propertyId) return;
+            const snap = await getDoc(doc(db, "properties", propertyId));
 
-</main>
+            if (snap.exists()) {
+                const p = snap.data();
+                document.getElementById("prop-title").innerText = p.title;
+                document.getElementById("prop-price").innerText = `RD$ ${Number(p.price).toLocaleString()}`;
+                document.getElementById("prop-location").innerText = `📍 ${p.city}`;
+                document.getElementById("prop-desc").innerText = p.desc;
+                document.getElementById("feat-rooms").innerText = `🛏️ ${p.rooms} Habitaciones`;
+                document.getElementById("feat-baths").innerText = `🚿 ${p.baths} Baños`;
+                document.getElementById("feat-parking").innerText = `🚗 ${p.parking} Parqueos`;
 
+                // WhatsApp dinámico
+                const wsNumber = p.whatsapp || "18090000000";
+                document.getElementById("whatsapp-link").href = `https://wa.me/${wsNumber}?text=Hola, vi tu anuncio "${p.title}" en InmoClicRD.`;
 
-<script src="data.js"></script>
-<script src="property.js"></script>
+                // Carrusel
+                const mainImg = document.getElementById("main-display");
+                const thumbList = document.getElementById("thumb-list");
+                if(p.images && p.images.length > 0) {
+                    mainImg.src = p.images[0];
+                    p.images.forEach(url => {
+                        const img = document.createElement("img");
+                        img.src = url;
+                        img.style = "width:80px; height:60px; object-fit:cover; border-radius:6px; cursor:pointer;";
+                        img.onclick = () => mainImg.src = url;
+                        thumbList.appendChild(img);
+                    });
+                }
+
+                // Reportar
+                document.getElementById("btn-report").onclick = async () => {
+                    const motivo = prompt("Motivo del reporte:");
+                    if(motivo) {
+                        await addDoc(collection(db, "reports"), { propertyId, motivo, fecha: new Date() });
+                        alert("Gracias, lo revisaremos.");
+                    }
+                };
+            }
+        }
+        load();
+    </script>
 </body>
 </html>

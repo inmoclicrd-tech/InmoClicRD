@@ -1,65 +1,87 @@
-// 1. Obtener ID
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, doc, getDoc, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyADDo7xxarlsQcZ37ZEQRBaM1U_rVm8ngg",
+    authDomain: "inmoclicrd-e58e8.firebaseapp.com",
+    projectId: "inmoclicrd-e58e8",
+    storageBucket: "inmoclicrd-e58e8.firebasestorage.app",
+    messagingSenderId: "780365012646",
+    appId: "1:780365012646:web:2e0feff94c426f8287de67"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
 const params = new URLSearchParams(window.location.search);
-const propertyId = parseInt(params.get("id"));
+const propertyId = params.get("id");
 
-// 2. Buscar propiedad
-const property = properties.find(p => p.id === propertyId);
+async function loadPropertyDetails() {
+    if (!propertyId) {
+        window.location.href = "index.html";
+        return;
+    }
 
-// 3. Validar
-if (!property) {
-  document.querySelector(".property-detail").innerHTML = `
-    <h2>Propiedad no encontrada</h2>
-    <a href="index.html" class="btn-primary">Volver</a>
-  `;
-  throw new Error("Propiedad no encontrada");
+    const docRef = doc(db, "properties", propertyId);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+        const p = docSnap.data();
+
+        // Llenar textos
+        document.getElementById("prop-title").innerText = p.title;
+        document.getElementById("prop-price").innerText = `RD$ ${Number(p.price).toLocaleString()}`;
+        document.getElementById("prop-location").innerText = `📍 ${p.city} | ${p.type}`;
+        document.getElementById("feat-rooms").innerText = `🛏️ ${p.rooms} Hab`;
+        document.getElementById("feat-baths").innerText = `🚿 ${p.baths} Baños`;
+        document.getElementById("feat-parking").innerText = `🚗 ${p.parking} Parq`;
+        document.getElementById("prop-desc").innerText = p.desc;
+
+        // WhatsApp
+        const wsPhone = p.whatsapp || "18090000000";
+        document.getElementById("whatsapp-link").href = `https://wa.me/${wsPhone}?text=Hola, me interesa la propiedad: ${p.title}`;
+
+        // Carrusel de Imágenes
+        const mainImg = document.getElementById("main-display");
+        const thumbList = document.getElementById("thumb-list");
+
+        if (p.images && p.images.length > 0) {
+            mainImg.src = p.images[0];
+            thumbList.innerHTML = ""; // Limpiar
+            p.images.forEach((url, index) => {
+                const imgThumb = document.createElement("img");
+                imgThumb.src = url;
+                imgThumb.style = "width: 80px; height: 60px; object-fit: cover; cursor: pointer; border-radius: 5px; border: 2px solid transparent;";
+                if(index === 0) imgThumb.style.borderColor = "#1dd1a1";
+
+                imgThumb.onclick = () => {
+                    mainImg.src = url;
+                    Array.from(thumbList.children).forEach(t => t.style.borderColor = "transparent");
+                    imgThumb.style.borderColor = "#1dd1a1";
+                };
+                thumbList.appendChild(imgThumb);
+            });
+        }
+
+        // Reportar
+        const btnReport = document.getElementById("btn-report");
+        if (btnReport) {
+            btnReport.onclick = async () => {
+                const motivo = prompt("¿Cuál es el motivo del reporte?");
+                if (motivo) {
+                    await addDoc(collection(db, "reports"), {
+                        propertyId: propertyId,
+                        reason: motivo,
+                        date: new Date()
+                    });
+                    alert("Reporte enviado. Gracias por informarnos.");
+                }
+            };
+        }
+    } else {
+        alert("La propiedad ya no está disponible.");
+        window.location.href = "index.html";
+    }
 }
 
-// 4. Datos
-document.getElementById("title").textContent = property.title;
-document.getElementById("price").textContent = property.price;
-document.getElementById("location").textContent = "📍 " + property.city;
-
-document.getElementById("rooms").textContent = `🛏 ${property.rooms} habitaciones`;
-document.getElementById("baths").textContent = `🚿 ${property.baths} baños`;
-document.getElementById("parking").textContent = `🚗 ${property.parking} parqueo`;
-
-document.getElementById("description").textContent =
-  property.description || "Descripción no disponible";
-
-// 5. WhatsApp
-document.getElementById("whatsapp").href =
-  `https://wa.me/${property.whatsapp}?text=${encodeURIComponent(
-    `Hola, vi esta propiedad en InmoClicRD y me interesa: ${property.title}`
-  )}`;
-
-// 6. Galería
-const mainImage = document.getElementById("main-image");
-const thumbsContainer = document.getElementById("gallery-thumbs");
-// 🛡️ Protección: si no hay galería, usar imagen principal
-const galleryImages = property.images && property.images.length
-  ? property.images
-  : [property.image];
-
-function renderGallery(images) {
-  mainImage.src = images[0];
-  thumbsContainer.innerHTML = "";
-
-  images.forEach((img, index) => {
-    const thumb = document.createElement("img");
-    thumb.src = img;
-
-    if (index === 0) thumb.classList.add("active");
-
-    thumb.onclick = () => {
-      mainImage.src = img;
-      document
-        .querySelectorAll(".gallery-thumbs img")
-        .forEach(i => i.classList.remove("active"));
-      thumb.classList.add("active");
-    };
-
-    thumbsContainer.appendChild(thumb);
-  });
-}
-
-renderGallery(property.images);
+document.addEventListener("DOMContentLoaded", loadPropertyDetails);

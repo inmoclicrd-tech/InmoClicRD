@@ -1,69 +1,137 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Publica tu Propiedad | InmoClicRD</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Publicar propiedad | InmoClicRD</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
 <header class="header">
   <div class="container header-content">
     <h1 class="logo">InmoClicRD</h1>
-    <nav>
-      <a href="index.html" class="btn-outline">Inicio</a>
-    </nav>
+    <a href="index.html" class="btn-secondary">Volver al inicio</a>
   </div>
 </header>
 
-<main class="about">
+<main class="container publish-page">
 
-  <section class="about-hero">
+  <section class="publish-hero">
     <h2>Publica tu propiedad gratis</h2>
-    <p>Conecta directamente con personas interesadas. Sin intermediarios.</p>
-  </section>
-
-  <section class="about-section highlight">
-    <h3>¿Por qué publicar en InmoClicRD?</h3>
-    <ul>
-      <li>Contacto directo por WhatsApp</li>
-      <li>Sin comisiones</li>
-      <li>Publicación rápida</li>
-      <li>Mayor visibilidad digital</li>
-    </ul>
-  </section>
-
-  <section class="about-section">
-    <h3>Estamos en fase inicial</h3>
     <p>
-      Actualmente estamos validando la plataforma.
-      Si te interesa publicar tu propiedad, contáctanos y te avisaremos
-      cuando las publicaciones estén disponibles.
+      Llega a personas interesadas y recibe contactos directos por WhatsApp.
+      <strong>Sin comisiones.</strong>
     </p>
   </section>
 
-  <section class="about-section highlight">
-    <a
-      href="https://wa.me/18295147589?text=Hola,%20quiero%20publicar%20una%20propiedad%20en%20InmoClicRD"
-      target="_blank"
-      class="whatsapp-btn"
-    >
-      🟢 Quiero publicar mi propiedad
-    </a>
+  <form id="publish-form" class="publish-form">
 
-    <p class="contact-note">
-      Te contactaremos cuando la función esté disponible
-    </p>
-  </section>
+    <div class="form-section">
+      <h3>Información básica</h3>
 
+      <label>
+        Título del anuncio
+        <input type="text" id="title" placeholder="Ej: Apartamento en alquiler en el centro" required>
+      </label>
+
+      <div class="form-grid">
+        <label>
+          Inmueble
+          <select id="type" required>
+            <option value="">Seleccionar</option>
+            <option value="Casa">Casa</option>
+            <option value="Apartamento">Apartamento</option>
+            <option value="Habitación">Habitación</option>
+            <option value="Local">Local comercial</option>
+          </select>
+        </label>
+
+        <label>
+          Operación
+          <select id="operation" required>
+            <option value="">Seleccionar</option>
+            <option value="Alquiler">Alquiler</option>
+            <option value="Venta">Venta</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="form-grid">
+        <label>Ubicación
+          <input type="text" id="city" placeholder="Ej: Santo Domingo Este" required>
+        </label>
+
+        <label>
+          Precio (RD$)
+          <input type="number" id="price" placeholder="Ej: 17000" required>
+        </label>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h3>Detalles de la propiedad</h3>
+
+      <div class="form-grid">
+        <label>
+          Habitaciones
+          <input type="number" id="rooms" min="0" value="0">
+        </label>
+
+        <label>
+          Baños
+          <input type="number" id="baths" min="0" value="0">
+        </label>
+
+        <label>
+          Parqueos
+          <input type="number" id="parking" min="0" value="0">
+        </label>
+      </div>
+
+      <label>
+        Descripción
+        <textarea id="desc" rows="4" placeholder="Describe tu propiedad, condiciones, ubicación, etc."></textarea>
+      </label>
+    </div>
+
+    <div class="form-section">
+      <h3>Imagen de portada</h3>
+      <label>Imágenes de la propiedad (Mínimo 1)</label>
+      <input type="file" id="prop-images" accept="image/*" multiple required>
+      <div id="image-preview" style="display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;"></div>
+    </div>
+
+    <div class="form-section">
+      <h3>Contacto Directo</h3>
+      <label>
+        Número de WhatsApp
+        <input type="tel" id="whatsapp" placeholder="Ej: 18091234567" required>
+      </label>
+      <p class="form-hint">
+        Tu número se usará para que los interesados te escriban directamente.
+      </p>
+    </div>
+
+    <div class="publish-actions">
+      <button type="submit" class="btn-primary btn-large" style="width: 100%; padding: 15px; font-size: 1.1rem;">
+        🚀 Publicar ahora
+      </button>
+      <p style="text-align: center; margin-top: 15px; font-size: 0.8rem; color: #666;">
+        Al publicar, aceptas nuestros términos y condiciones de seguridad.
+      </p>
+    </div>
+
+  </form>
 </main>
 
 <footer class="footer">
   <div class="footer-bottom">
-    © 2026 InmoClicRD · Plataforma inmobiliaria en República Dominicana
+    © 2026 InmoClicRD · República Dominicana
   </div>
 </footer>
+
+<script type="module" src="publicar.js"></script>
 
 </body>
 </html>
