@@ -38,7 +38,7 @@ body {
   background: var(--secondary);
   color: var(--white);
   padding: 0.5rem 0;
-  position: sticky;
+  position: relative;
   top: 0;
   z-index: 1000;
   height: 70px;
@@ -99,16 +99,6 @@ body {
   background: #1dd1a1;
   border-radius: 50%;
   box-shadow: 0 0 5px #1dd1a1;
-}
-
-@media (max-width: 480px) {
-  .user-name-text {
-    max-width: 70px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-  .header-actions { gap: 8px; }
 }
 
 /* =========================================
@@ -496,4 +486,82 @@ input, select, textarea {
   border-radius: 8px;
   font-weight: bold;
   margin-top: 15px;
+}
+
+/* =========================================
+   10. AJUSTES MÓVILES (CORREGIDO)
+   ========================================= */
+
+@media (max-width: 768px) {
+  /* Permitimos que el header crezca verticalmente */
+  .header {
+    height: auto;
+    padding: 15px 0;
+  }
+
+  /* El contenido se apila uno debajo de otro */
+  .header-content {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+
+  /* Los botones y la info de usuario se centran */
+  .header-actions {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .user-status-block {
+    width: 100%;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
+
+@media (max-width: 480px) {
+  .user-name-text {
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .btn-primary, .btn-login {
+    padding: 10px 15px;
+    font-size: 0.85rem;
+    flex: 1; /* Los botones se reparten el ancho */
+  }
+}
+/* Estilo para el botón de Cerrar Sesión */
+.btn-logout {
+    background: rgba(231, 76, 60, 0.15); /* Rojo muy suave transparente */
+    color: #ff7675 !important; /* Color coral/rojo suave */
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-decoration: none !important;
+    border: 1px solid rgba(231, 76, 60, 0.3);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.btn-logout:hover {
+    background: #e74c3c;
+    color: white !important;
+    border-color: #e74c3c;
+}
+
+/* Ajuste para el contenedor de usuario en móvil */
+@media (max-width: 768px) {
+    #user-info {
+        gap: 12px;
+    }
+    .btn-logout {
+        width: auto;
+        padding: 8px 15px;
+    }
 }

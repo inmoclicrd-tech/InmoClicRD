@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Detalle de Propiedad - InmoClicRD</title>
 
     <meta property="og:type" content="website">
@@ -12,47 +12,117 @@
 
     <link rel="stylesheet" href="styles.css">
     <style>
-        .logo { font-size: 1.5rem; font-weight: bold; color: white !important; text-decoration: none !important; display: flex; align-items: center; }
+        /* FORZAR RESET PARA ESTA PÁGINA */
+        body { overflow-x: hidden; width: 100vw; }
 
-        /* Layout responsivo */
-        .property-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; margin-top: 20px; }
-
-        @media (max-width: 768px) {
-            .property-grid { grid-template-columns: 1fr; gap: 15px; }
-            #main-display { height: 300px !important; } /* Altura más cómoda en móvil */
-            .side-card { position: relative !important; top: 0 !important; padding: 20px !important; }
-            .modal-box { width: 95%; padding: 20px; }
+        /* 1. CORRECCIÓN DEL HEADER PARA QUE NO SE MONTE */
+        header.header {
+            height: auto !important;
+            min-height: 70px;
+            padding: 10px 0;
+            position: relative !important; /* Asegurar que deslice */
         }
 
-        #main-display { width: 100%; height: 450px; object-fit: cover; border-radius: 12px; background-color: #eee; display: block; }
+        .logo { font-size: 1.5rem; font-weight: bold; color: white !important; text-decoration: none !important; }
 
-        .thumb-img { width: 80px; height: 60px; object-fit: cover; border-radius: 6px; cursor: pointer; border: 2px solid transparent; transition: border 0.2s; flex-shrink: 0; }
-        .thumb-img:hover { border-color: var(--primary); }
+        /* 2. DISEÑO DE CUADRÍCULA (EL CORAZÓN DEL PROBLEMA) */
+        main.container {
+            padding: 0 15px !important;
+            max-width: 100% !important;
+        }
 
-        .side-card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); position: sticky; top: 20px; }
+        .property-grid {
+            display: flex;
+            flex-direction: column; /* Por defecto en móvil es columna */
+            gap: 20px;
+            margin-top: 20px;
+        }
 
-        .feature-item { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; color: #555; }
+        /* En escritorio vuelve a ser Grid */
+        @media (min-width: 769px) {
+            .property-grid {
+                display: grid;
+                grid-template-columns: 2fr 1fr;
+                gap: 30px;
+            }
+        }
 
-        .publisher-box { background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 20px 0; border: 1px solid #eee; }
+        /* 3. IMAGEN PRINCIPAL RESPONSIVA */
+        #main-display {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 4 / 3; /* Mantiene la proporción siempre */
+            max-height: 450px;
+            object-fit: cover;
+            border-radius: 12px;
+            background-color: #eee;
+        }
 
-        /* Estilos del Modal */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 2000; justify-content: center; align-items: center; }
-        .modal-box { background: white; padding: 30px; border-radius: 12px; width: 90%; max-width: 450px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
-        .modal-title { margin-bottom: 20px; color: #c0392b; font-size: 1.3rem; }
+        /* 4. GALERÍA DE MINIATURAS */
+        #thumb-list {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            scrollbar-width: none; /* Ocultar scroll en Firefox */
+        }
+        #thumb-list::-webkit-scrollbar { display: none; } /* Ocultar scroll en Chrome/Safari */
 
-        .report-option { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; cursor: pointer; font-size: 1rem; color: #333; background: #f9f9f9; padding: 12px; border-radius: 8px; }
-        .report-option input { width: 18px; height: 18px; accent-color: #c0392b; }
+        .thumb-img {
+            width: 70px;
+            height: 55px;
+            object-fit: cover;
+            border-radius: 8px;
+            flex-shrink: 0;
+            border: 2px solid transparent;
+        }
 
-        .report-textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; margin-top: 10px; display: none; font-family: inherit; }
-        .modal-actions { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; }
-        .btn-cancel { background: #eee; color: #333; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; }
-        .btn-confirm { background: #c0392b; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; }
+        /* 5. TARJETA LATERAL (SIDE CARD) */
+        .side-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 1px solid #eee;
+        }
+
+        @media (min-width: 769px) {
+            .side-card {
+                position: sticky;
+                top: 20px;
+            }
+        }
+
+        /* AJUSTES DE TEXTO Y BOTÓN */
+        #prop-title { font-size: 1.3rem; line-height: 1.2; margin-bottom: 10px; }
+        #prop-price { color: var(--primary); font-size: 1.6rem; font-weight: bold; margin-bottom: 15px; }
+
+        .feature-item { display: flex; align-items: center; gap: 8px; font-size: 0.95rem; color: #555; margin-bottom: 8px; }
+
+        #whatsapp-link {
+            display: block;
+            width: 100%;
+            text-align: center;
+            background: #25D366;
+            color: white !important;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 1.1rem;
+            margin-top: 10px;
+        }
+
+        /* MODAL */
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 3000; align-items: center; justify-content: center; }
+        .modal-box { background: white; width: 90%; max-width: 400px; padding: 25px; border-radius: 15px; }
     </style>
 </head>
 <body>
 
     <header class="header">
-        <div class="container header-content" style="display: flex; justify-content: space-between; align-items: center;">
+        <div class="container header-content">
             <a href="index.html" class="logo">InmoClicRD</a>
             <a href="index.html" class="btn-secondary">Volver</a>
         </div>
@@ -60,60 +130,62 @@
 
     <main class="container">
         <div class="property-grid">
-            <div class="main-column">
-                <div class="gallery-container">
-                    <img id="main-display" src="https://via.placeholder.com/800x600?text=Cargando..." alt="Imagen Principal">
-                    <div id="thumb-list" style="display:flex; gap:10px; margin-top:15px; overflow-x:auto; padding-bottom:10px; -webkit-overflow-scrolling: touch;"></div>
-                </div>
 
-                <div style="background:white; padding:25px; border-radius:12px; margin-top:20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
-                    <h3 style="margin-bottom: 15px;">Descripción</h3>
-                    <p id="prop-desc" style="white-space: pre-line; color: #444; line-height: 1.6;"></p>
+            <div class="main-column">
+                <img id="main-display" src="https://via.placeholder.com/800x600?text=Cargando+Propiedad..." alt="Imagen Principal">
+
+                <div id="thumb-list"></div>
+
+                <div style="background:white; padding:20px; border-radius:12px; margin-top:20px; border: 1px solid #eee;">
+                    <h3 style="margin-bottom: 10px;">Descripción</h3>
+                    <p id="prop-desc" style="white-space: pre-line; color: #444; font-size: 0.95rem;"></p>
                 </div>
             </div>
 
             <div class="side-panel">
                 <div class="side-card">
-                    <button id="btn-report-trigger" style="float:right; border:none; background:none; color:#e74c3c; cursor:pointer; font-size: 0.9rem;">🚩 Reportar</button>
+                    <button id="btn-report-trigger" style="float:right; border:none; background:none; color:#e74c3c; cursor:pointer;">🚩 Reportar</button>
 
-                    <h1 id="prop-title" style="font-size:1.4rem; margin-bottom: 5px; line-height: 1.3;">Cargando...</h1>
-                    <p id="prop-location" style="color:#666; font-size: 0.95rem; margin-bottom: 15px;"></p>
+                    <h1 id="prop-title">...</h1>
+                    <p id="prop-location" style="color:#666; font-size: 0.9rem; margin-bottom: 15px;"></p>
 
-                    <h2 id="prop-price" style="color: var(--primary); font-size:1.8rem; margin-bottom: 20px;">RD$ 0</h2>
+                    <h2 id="prop-price">RD$ 0</h2>
 
-                    <div class="features-list" style="border-top:1px solid #eee; padding-top:15px; margin-bottom: 15px;">
+                    <div style="border-top:1px solid #eee; padding-top:15px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
                         <div class="feature-item" id="feat-rooms">🛏️ -- Hab</div>
                         <div class="feature-item" id="feat-baths">🚿 -- Baños</div>
                         <div class="feature-item" id="feat-parking">🚗 -- Pq</div>
                     </div>
 
-                    <div class="publisher-box">
-                        <p style="font-size: 0.85rem; color: #888; margin-bottom: 5px;">Publicado por:</p>
-                        <h3 style="font-size: 1.1rem; color: #333; display: flex; align-items: center; gap: 8px;">
-                            👤 <span id="publisher-name">...</span>
-                        </h3>
+                    <div style="background:#f8f9fa; padding:12px; border-radius:8px; margin: 20px 0;">
+                        <small style="color: #888;">Publicado por:</small>
+                        <p id="publisher-name" style="font-weight: bold; margin: 0; color: #333;">...</p>
                     </div>
 
-                    <a id="whatsapp-link" href="#" target="_blank" class="btn-primary" style="display:block; text-align:center; padding:18px; background:#25D366; text-decoration:none; border-radius: 8px; font-weight: bold; font-size: 1.1rem;">
-                        📲 Contactar por WhatsApp
+                    <a id="whatsapp-link" href="#" target="_blank">
+                        📲 WhatsApp
                     </a>
                 </div>
             </div>
+
         </div>
     </main>
 
     <div id="report-modal" class="modal-overlay">
         <div class="modal-box">
-            <h3 class="modal-title">🚩 Reportar publicación</h3>
+            <h3 style="color: #c0392b; margin-bottom: 15px;">Reportar Anuncio</h3>
             <form id="report-form">
-                <label class="report-option"><input type="radio" name="motivo" value="Información falsa" required> Información falsa</label>
-                <label class="report-option"><input type="radio" name="motivo" value="Imágenes no claras"> Imágenes no claras</label>
-                <label class="report-option"><input type="radio" name="motivo" value="Precios falsos"> Precios falsos</label>
-                <label class="report-option"><input type="radio" name="motivo" value="Otro" id="radio-otro"> Otro (Especifique)</label>
-                <textarea id="report-text" class="report-textarea" rows="3" placeholder="Describe el problema..."></textarea>
-                <div class="modal-actions">
-                    <button type="button" class="btn-cancel" id="btn-close-modal">Cancelar</button>
-                    <button type="submit" class="btn-confirm">Enviar</button>
+                <div id="report-options" style="display: flex; flex-direction: column; gap: 10px;">
+                    <label><input type="radio" name="motivo" value="Información falsa" required> Información falsa</label>
+                    <label><input type="radio" name="motivo" value="Imágenes no claras"> Imágenes no claras</label>
+                    <label><input type="radio" name="motivo" value="Precios falsos"> Precios falsos</label>
+                    <label><input type="radio" name="motivo" value="Otro" id="radio-otro"> Otro motivo</label>
+                </div>
+                <textarea id="report-text" style="width: 100%; margin-top: 10px; display: none; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" rows="3" placeholder="Detalla el problema..."></textarea>
+
+                <div style="display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end;">
+                    <button type="button" id="btn-close-modal" style="padding: 10px; border: none; background: #eee; border-radius: 5px;">Cancelar</button>
+                    <button type="submit" style="padding: 10px; border: none; background: #c0392b; color: white; border-radius: 5px;">Enviar</button>
                 </div>
             </form>
         </div>
@@ -139,67 +211,48 @@
 
         const propertyId = new URLSearchParams(window.location.search).get("id");
 
-        // Lógica Modal
+        // LÓGICA MODAL
         const modal = document.getElementById("report-modal");
         const btnTrigger = document.getElementById("btn-report-trigger");
         const btnClose = document.getElementById("btn-close-modal");
-        const reportForm = document.getElementById("report-form");
-        const radioOtro = document.getElementById("radio-otro");
         const textArea = document.getElementById("report-text");
 
         btnTrigger.onclick = () => modal.style.display = "flex";
-        btnClose.onclick = () => { modal.style.display = "none"; reportForm.reset(); textArea.style.display = "none"; };
-
+        btnClose.onclick = () => { modal.style.display = "none"; textArea.style.display = "none"; };
         document.getElementsByName("motivo").forEach(r => {
             r.onchange = (e) => textArea.style.display = (e.target.value === "Otro") ? "block" : "none";
         });
 
-        reportForm.onsubmit = async (e) => {
+        document.getElementById("report-form").onsubmit = async (e) => {
             e.preventDefault();
-            const selected = document.querySelector('input[name="motivo"]:checked').value;
-            const motivoFinal = selected === "Otro" ? `Otro: ${textArea.value}` : selected;
-            await addDoc(collection(db, "reports"), {
-                propertyId, motivo: motivoFinal, fecha: new Date(),
-                reportadoPor: auth.currentUser ? auth.currentUser.email : "Anónimo"
-            });
+            const val = document.querySelector('input[name="motivo"]:checked').value;
+            const final = val === "Otro" ? textArea.value : val;
+            await addDoc(collection(db, "reports"), { propertyId, motivo: final, fecha: new Date() });
             alert("Reporte enviado.");
             modal.style.display = "none";
         };
 
         async function load() {
             if (!propertyId) return window.location.href = "index.html";
-
             try {
                 const snap = await getDoc(doc(db, "properties", propertyId));
                 if (snap.exists()) {
                     const p = snap.data();
 
-                    // Meta Tags
-                    document.title = `${p.title} - InmoClicRD`;
-                    document.getElementById("meta-title").content = p.title;
-                    document.getElementById("meta-desc").content = `RD$ ${Number(p.price).toLocaleString()} - ${p.city}.`;
-                    if(p.images?.length) document.getElementById("meta-img").content = p.images[0];
-
                     document.getElementById("prop-title").innerText = p.title;
                     document.getElementById("prop-price").innerText = `RD$ ${Number(p.price).toLocaleString()}`;
                     document.getElementById("prop-location").innerText = `📍 ${p.city}`;
-                    document.getElementById("prop-desc").innerText = p.desc || "";
+                    document.getElementById("prop-desc").innerText = p.desc || "Sin descripción.";
                     document.getElementById("feat-rooms").innerText = `🛏️ ${p.rooms} Hab`;
                     document.getElementById("feat-baths").innerText = `🚿 ${p.baths} Baños`;
                     document.getElementById("feat-parking").innerText = `🚗 ${p.parking} Pq`;
-                    document.getElementById("publisher-name").innerText = p.userName || "Usuario";
+                    document.getElementById("publisher-name").innerText = p.userName || "Propietario";
 
-                    // --- CORRECCIÓN WHATSAPP (CÓDIGO PAÍS) ---
-                    let rawNum = p.whatsapp || "8090000000";
-                    let cleanNumber = rawNum.replace(/\D/g, '');
-
-                    // Si el número es dominicano (10 dígitos) y no tiene el '1', se lo agregamos
-                    if (cleanNumber.length === 10 && (cleanNumber.startsWith('809') || cleanNumber.startsWith('829') || cleanNumber.startsWith('849'))) {
-                        cleanNumber = "1" + cleanNumber;
-                    }
-
-                    const message = encodeURIComponent(`Hola, vi este anuncio en InmoClicRD:\n*${p.title}*\n💰 RD$ ${Number(p.price).toLocaleString()}\n📍 ${p.city}\n🔗 ${window.location.href}`);
-                    document.getElementById("whatsapp-link").href = `https://wa.me/${cleanNumber}?text=${message}`;
+                    // WhatsApp
+                    let clean = (p.whatsapp || "").replace(/\D/g, '');
+                    if (clean.length === 10) clean = "1" + clean;
+                    const msg = encodeURIComponent(`Hola, vi tu anuncio "${p.title}" en InmoClicRD.`);
+                    document.getElementById("whatsapp-link").href = `https://wa.me/${clean}?text=${msg}`;
 
                     // Galería
                     const mainImg = document.getElementById("main-display");
@@ -215,7 +268,7 @@
                         });
                     }
                 }
-            } catch (error) { console.error(error); }
+            } catch (e) { console.error(e); }
         }
         load();
     </script>
