@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalle de Propiedad - InmoClicRD</title>
+    <meta property="og:type" content="website">
+<meta id="meta-title" property="og:title" content="InmoClicRD | Propiedad en Alquiler/Venta">
+<meta id="meta-desc" property="og:description" content="Mira los detalles de esta propiedad en InmoClicRD.">
+<meta id="meta-img" property="og:image" content="https://inmoclicrd.com/logo-preview.png">
     <link rel="stylesheet" href="styles.css">
     <style>
         /* --- ARREGLO DEL LOGO --- */
@@ -327,6 +331,14 @@
 
                 if (snap.exists()) {
                     const p = snap.data();
+                    // Actualizar Meta Tags Dinámicamente para compartir
+document.title = `${p.title} - InmoClicRD`;
+document.getElementById("meta-title").setAttribute("content", p.title);
+document.getElementById("meta-desc").setAttribute("content", `RD$ ${Number(p.price).toLocaleString()} - ${p.city}. Haz clic para ver más fotos.`);
+
+if(p.images && p.images.length > 0) {
+    document.getElementById("meta-img").setAttribute("content", p.images[0]);
+}
 
                     document.getElementById("prop-title").innerText = p.title;
                     document.getElementById("prop-price").innerText = `RD$ ${Number(p.price).toLocaleString()}`;
@@ -339,9 +351,30 @@
 
                     document.getElementById("publisher-name").innerText = p.userName || "Usuario InmoClic";
 
-                    const wsNumber = p.whatsapp || "18090000000";
-                    const cleanNumber = wsNumber.replace(/\D/g, '');
-                    document.getElementById("whatsapp-link").href = `https://wa.me/${cleanNumber}?text=Hola, vi tu anuncio "${p.title}" en InmoClicRD y me interesa más información.`;
+                    // --- CONFIGURACIÓN DE WHATSAPP MEJORADA ---
+const wsNumber = p.whatsapp || "18090000000";
+const cleanNumber = wsNumber.replace(/\D/g, '');
+
+// 1. Obtenemos la URL actual de la página
+const currentURL = window.location.href;
+
+// 2. Formateamos el precio para el mensaje
+const formattedPrice = Number(p.price).toLocaleString();
+
+// 3. Creamos el mensaje personalizado (usamos \n para saltos de línea)
+const message = `Hola, vi este anuncio en InmoClicRD:
+*${p.title}*
+💰 Precio: RD$ ${formattedPrice}
+📍 Ubicación: ${p.city}
+🔗 Link: ${currentURL}
+
+Me interesa más información.`;
+
+// 4. Codificamos el mensaje para que sea válido en una URL
+const encodedMessage = encodeURIComponent(message);
+
+// 5. Asignamos al botón
+document.getElementById("whatsapp-link").href = `https://wa.me/${cleanNumber}?text=${encodedMessage}`;
 
                     const mainImg = document.getElementById("main-display");
                     const thumbList = document.getElementById("thumb-list");
