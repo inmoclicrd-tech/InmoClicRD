@@ -32,7 +32,7 @@ body {
 }
 
 /* =========================================
-   2. HEADER & NAVEGACIÓN (Optimizado)
+   2. HEADER & NAVEGACIÓN (Escritorio)
    ========================================= */
 .header {
   background: var(--secondary);
@@ -41,7 +41,7 @@ body {
   position: sticky;
   top: 0;
   z-index: 1000;
-  height: 70px;
+  height: 70px; /* Altura fija para PC */
   display: flex;
   align-items: center;
 }
@@ -101,18 +101,8 @@ body {
   box-shadow: 0 0 5px #1dd1a1;
 }
 
-@media (max-width: 480px) {
-  .user-name-text {
-    max-width: 70px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-  .header-actions { gap: 8px; }
-}
-
 /* =========================================
-   3. FILTROS (MODIFICADO: Tamaños controlados)
+   3. FILTROS
    ========================================= */
 .filters {
   background: var(--white);
@@ -124,7 +114,7 @@ body {
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
-  justify-content: center; /* Centrados en escritorio */
+  justify-content: center;
 }
 
 .filters-content select {
@@ -218,15 +208,6 @@ body {
 .card-title { font-size: 1.1rem; margin: 8px 0; color: #333; }
 .card-price { font-weight: bold; color: #1dd1a1; font-size: 1.1rem; }
 
-.card-author {
-    font-size: 0.8rem;
-    color: #6b7280;
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
 .card-features {
   display: flex;
   gap: 15px;
@@ -284,28 +265,6 @@ body {
   border-color: var(--primary);
 }
 
-.author-info-box {
-    background: #f8fafc;
-    padding: 15px;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    border-left: 4px solid var(--primary);
-}
-
-.author-label {
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    color: #64748b;
-    font-weight: bold;
-    display: block;
-}
-
-.author-name {
-    font-size: 1rem;
-    color: var(--secondary);
-    font-weight: 600;
-}
-
 /* =========================================
    7. SECCIÓN PASOS / FOOTER
    ========================================= */
@@ -360,13 +319,6 @@ body {
 
 @media (min-width: 768px) {
   .footer-content { grid-template-columns: 2fr 1fr 1fr; }
-}
-
-.footer-column-links {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-top: 15px;
 }
 
 .footer-nav-item {
@@ -498,58 +450,78 @@ input, select, textarea {
   margin-top: 15px;
 }
 
-/* =========================================
-   CORRECCIÓN HEADER MÓVIL (Login)
-   ========================================= */
+
+/* =========================================================================
+   10. CORRECCIÓN HEADER MÓVIL (SOLUCIÓN DEFINITIVA)
+   Esta sección sobrescribe los estilos de PC para ajustarse a celulares
+   ========================================================================= */
 
 @media (max-width: 768px) {
-  /* 1. Cambiamos la dirección del header a vertical */
+  /* 1. CRUCIAL: Liberar la altura fija del header para que quepan los elementos */
+  .header {
+    height: auto !important;
+    padding: 15px 0;
+  }
+
+  /* 2. Organizar contenido en columna vertical */
   .header-content {
     flex-direction: column;
     align-items: center;
-    gap: 15px; /* Espacio entre el logo y los botones */
-    padding: 15px 20px;
+    gap: 15px;
+    width: 100%;
   }
 
-  /* 2. El contenedor de los botones y usuario ocupa todo el ancho */
+  /* 3. Contenedor de acciones (Usuario y Botones) ocupa todo el ancho */
   .header-actions {
     width: 100%;
-    justify-content: center;
-    flex-wrap: wrap; /* Permite que si hay mucho texto, baje */
-    gap: 10px;
+    display: flex;
+    flex-direction: column; /* Uno debajo del otro */
+    align-items: center;
+    gap: 12px;
   }
 
-  /* 3. Ajuste específico para el bloque de usuario (Nombre + Cerrar Sesión) */
+  /* 4. Tarjeta del Usuario (Cuando está logueado) */
   #user-info {
     width: 100%;
+    display: flex !important; /* Forzar flex para que se vea */
+    flex-direction: column; /* Nombre arriba, botón salir abajo */
+    align-items: center;
     justify-content: center;
-    margin-bottom: 10px;
-    background: rgba(255, 255, 255, 0.1); /* Un fondo suave para diferenciarlo */
-    padding: 8px;
+    background: rgba(255, 255, 255, 0.15); /* Fondo semitransparente */
+    padding: 10px;
     border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 5px;
   }
 
-  /* 4. El nombre del usuario un poco más grande y claro */
+  /* 5. Estilo del nombre de usuario */
   #user-display-name {
-    font-size: 1rem;
-    display: block;
-    margin-bottom: 2px;
+    font-size: 1.1rem !important;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 8px;
   }
 
-  /* 5. El botón de publicar (o iniciar sesión) que ocupe el ancho completo para fácil click */
+  /* 6. Botón de Cerrar Sesión (dentro de la tarjeta de usuario) */
+  #logout-btn {
+    background: #e74c3c !important; /* Color rojo para destacar */
+    color: white !important;
+    padding: 8px 15px !important;
+    border-radius: 6px;
+    font-size: 0.9rem !important;
+    text-decoration: none !important;
+    width: auto;
+    text-align: center;
+    display: inline-block;
+  }
+
+  /* 7. Botones principales (Publicar / Iniciar Sesión) */
   .header-actions .btn-primary,
   .header-actions .btn-login {
     width: 100%;
     text-align: center;
     padding: 12px;
-  }
-
-  /* 6. El botón de Cerrar Sesión más visible */
-  #logout-btn {
-      background: rgba(0,0,0,0.2);
-      padding: 5px 10px;
-      border-radius: 4px;
-      text-decoration: none !important;
-      font-size: 0.8rem !important;
+    font-size: 1rem;
+    margin: 0;
   }
 }
