@@ -497,3 +497,59 @@ input, select, textarea {
   font-weight: bold;
   margin-top: 15px;
 }
+
+/* =========================================
+   CORRECCIÓN HEADER MÓVIL (Login)
+   ========================================= */
+
+@media (max-width: 768px) {
+  /* 1. Cambiamos la dirección del header a vertical */
+  .header-content {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px; /* Espacio entre el logo y los botones */
+    padding: 15px 20px;
+  }
+
+  /* 2. El contenedor de los botones y usuario ocupa todo el ancho */
+  .header-actions {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap; /* Permite que si hay mucho texto, baje */
+    gap: 10px;
+  }
+
+  /* 3. Ajuste específico para el bloque de usuario (Nombre + Cerrar Sesión) */
+  #user-info {
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 10px;
+    background: rgba(255, 255, 255, 0.1); /* Un fondo suave para diferenciarlo */
+    padding: 8px;
+    border-radius: 8px;
+  }
+
+  /* 4. El nombre del usuario un poco más grande y claro */
+  #user-display-name {
+    font-size: 1rem;
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  /* 5. El botón de publicar (o iniciar sesión) que ocupe el ancho completo para fácil click */
+  .header-actions .btn-primary,
+  .header-actions .btn-login {
+    width: 100%;
+    text-align: center;
+    padding: 12px;
+  }
+
+  /* 6. El botón de Cerrar Sesión más visible */
+  #logout-btn {
+      background: rgba(0,0,0,0.2);
+      padding: 5px 10px;
+      border-radius: 4px;
+      text-decoration: none !important;
+      font-size: 0.8rem !important;
+  }
+}
