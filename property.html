@@ -4,134 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalle de Propiedad - InmoClicRD</title>
+
     <meta property="og:type" content="website">
-<meta id="meta-title" property="og:title" content="InmoClicRD | Propiedad en Alquiler/Venta">
-<meta id="meta-desc" property="og:description" content="Mira los detalles de esta propiedad en InmoClicRD.">
-<meta id="meta-img" property="og:image" content="https://inmoclicrd.com/logo-preview.png">
+    <meta id="meta-title" property="og:title" content="InmoClicRD | Propiedad">
+    <meta id="meta-desc" property="og:description" content="Mira los detalles de esta propiedad en InmoClicRD.">
+    <meta id="meta-img" property="og:image" content="https://inmoclicrd.com/logo-preview.png">
+
     <link rel="stylesheet" href="styles.css">
     <style>
-        /* --- ARREGLO DEL LOGO --- */
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: white !important;
-            text-decoration: none !important;
-            display: flex;
-            align-items: center;
-        }
-        .logo:hover { opacity: 0.9; }
+        .logo { font-size: 1.5rem; font-weight: bold; color: white !important; text-decoration: none !important; display: flex; align-items: center; }
 
-        /* --- ESTILOS DEL DETALLE --- */
-        .property-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 30px;
-            margin-top: 20px;
-        }
+        /* Layout responsivo */
+        .property-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; margin-top: 20px; }
 
         @media (max-width: 768px) {
-            .property-grid {
-                grid-template-columns: 1fr;
-            }
+            .property-grid { grid-template-columns: 1fr; gap: 15px; }
+            #main-display { height: 300px !important; } /* Altura más cómoda en móvil */
+            .side-card { position: relative !important; top: 0 !important; padding: 20px !important; }
+            .modal-box { width: 95%; padding: 20px; }
         }
 
-        #main-display {
-            width: 100%;
-            height: 400px;
-            object-fit: cover;
-            border-radius: 12px;
-            background-color: #eee;
-            display: block;
-        }
+        #main-display { width: 100%; height: 450px; object-fit: cover; border-radius: 12px; background-color: #eee; display: block; }
 
-        .thumb-img {
-            width: 80px; height: 60px;
-            object-fit: cover; border-radius: 6px;
-            cursor: pointer; border: 2px solid transparent;
-            transition: border 0.2s; flex-shrink: 0;
-        }
+        .thumb-img { width: 80px; height: 60px; object-fit: cover; border-radius: 6px; cursor: pointer; border: 2px solid transparent; transition: border 0.2s; flex-shrink: 0; }
         .thumb-img:hover { border-color: var(--primary); }
 
-        .side-card {
-            background: white; padding: 25px;
-            border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            position: sticky; top: 20px;
-        }
+        .side-card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); position: sticky; top: 20px; }
 
-        .feature-item {
-            display: flex; align-items: center; gap: 10px;
-            margin-bottom: 10px; color: #555;
-        }
+        .feature-item { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; color: #555; }
 
-        .publisher-box {
-            background: #f8f9fa; padding: 15px;
-            border-radius: 8px; margin: 20px 0; border: 1px solid #eee;
-        }
+        .publisher-box { background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 20px 0; border: 1px solid #eee; }
 
-        /* --- ESTILOS DEL MODAL DE REPORTE (CORREGIDO) --- */
-        .modal-overlay {
-            display: none;
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 2000;
-            justify-content: center; align-items: center;
-        }
-
-        .modal-box {
-            background: white; padding: 30px;
-            border-radius: 12px; width: 90%; max-width: 450px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-            position: relative;
-        }
-
+        /* Estilos del Modal */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 2000; justify-content: center; align-items: center; }
+        .modal-box { background: white; padding: 30px; border-radius: 12px; width: 90%; max-width: 450px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
         .modal-title { margin-bottom: 20px; color: #c0392b; font-size: 1.3rem; }
 
-        /* --- AQUÍ ESTÁ EL ARREGLO DE ALINEACIÓN --- */
-        .report-option {
-            display: flex; /* Usamos Flexbox para alinear */
-            align-items: center; /* Centrar verticalmente */
-            gap: 10px; /* Espacio entre el círculo y el texto */
-            margin-bottom: 15px; /* Espacio entre opciones */
-            cursor: pointer;
-            font-size: 1rem; color: #333;
-            background: #f9f9f9; /* Fondo suave para que parezca botón */
-            padding: 10px;
-            border-radius: 8px;
-            transition: background 0.2s;
-        }
+        .report-option { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; cursor: pointer; font-size: 1rem; color: #333; background: #f9f9f9; padding: 12px; border-radius: 8px; }
+        .report-option input { width: 18px; height: 18px; accent-color: #c0392b; }
 
-        .report-option:hover {
-            background: #eee;
-        }
-
-        /* Ajuste del input (círculo) para que no se deforme */
-        .report-option input[type="radio"] {
-            margin: 0;
-            width: 18px;
-            height: 18px;
-            accent-color: #c0392b; /* Color rojo al seleccionar */
-            cursor: pointer;
-        }
-        /* ------------------------------------------ */
-
-        .report-textarea {
-            width: 100%; padding: 10px; border: 1px solid #ddd;
-            border-radius: 8px; margin-top: 10px; display: none;
-            font-family: inherit;
-        }
-
-        .modal-actions {
-            display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end;
-        }
-
-        .btn-cancel {
-            background: #eee; color: #333; border: none;
-            padding: 10px 20px; border-radius: 6px; cursor: pointer;
-        }
-        .btn-confirm {
-            background: #c0392b; color: white; border: none;
-            padding: 10px 20px; border-radius: 6px; cursor: pointer;
-        }
+        .report-textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; margin-top: 10px; display: none; font-family: inherit; }
+        .modal-actions { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; }
+        .btn-cancel { background: #eee; color: #333; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; }
+        .btn-confirm { background: #c0392b; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -148,12 +63,12 @@
             <div class="main-column">
                 <div class="gallery-container">
                     <img id="main-display" src="https://via.placeholder.com/800x600?text=Cargando..." alt="Imagen Principal">
-                    <div id="thumb-list" style="display:flex; gap:10px; margin-top:15px; overflow-x:auto; padding-bottom:10px;"></div>
+                    <div id="thumb-list" style="display:flex; gap:10px; margin-top:15px; overflow-x:auto; padding-bottom:10px; -webkit-overflow-scrolling: touch;"></div>
                 </div>
 
                 <div style="background:white; padding:25px; border-radius:12px; margin-top:20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
                     <h3 style="margin-bottom: 15px;">Descripción</h3>
-                    <p id="prop-desc" style="white-space: pre-line; color: #444; line-height: 1.6;">Cargando descripción...</p>
+                    <p id="prop-desc" style="white-space: pre-line; color: #444; line-height: 1.6;"></p>
                 </div>
             </div>
 
@@ -161,10 +76,10 @@
                 <div class="side-card">
                     <button id="btn-report-trigger" style="float:right; border:none; background:none; color:#e74c3c; cursor:pointer; font-size: 0.9rem;">🚩 Reportar</button>
 
-                    <h1 id="prop-title" style="font-size:1.4rem; margin-bottom: 5px; line-height: 1.3;">Cargando título...</h1>
-                    <p id="prop-location" style="color:#666; font-size: 0.95rem; margin-bottom: 15px;">📍 ...</p>
+                    <h1 id="prop-title" style="font-size:1.4rem; margin-bottom: 5px; line-height: 1.3;">Cargando...</h1>
+                    <p id="prop-location" style="color:#666; font-size: 0.95rem; margin-bottom: 15px;"></p>
 
-                    <h2 id="prop-price" style="color: #1dd1a1; font-size:1.8rem; margin-bottom: 20px;">RD$ ...</h2>
+                    <h2 id="prop-price" style="color: var(--primary); font-size:1.8rem; margin-bottom: 20px;">RD$ 0</h2>
 
                     <div class="features-list" style="border-top:1px solid #eee; padding-top:15px; margin-bottom: 15px;">
                         <div class="feature-item" id="feat-rooms">🛏️ -- Hab</div>
@@ -175,11 +90,11 @@
                     <div class="publisher-box">
                         <p style="font-size: 0.85rem; color: #888; margin-bottom: 5px;">Publicado por:</p>
                         <h3 style="font-size: 1.1rem; color: #333; display: flex; align-items: center; gap: 8px;">
-                            👤 <span id="publisher-name">Cargando...</span>
+                            👤 <span id="publisher-name">...</span>
                         </h3>
                     </div>
 
-                    <a id="whatsapp-link" href="#" target="_blank" class="btn-primary" style="display:block; text-align:center; padding:15px; background:#25D366; text-decoration:none; border-radius: 8px; font-weight: bold;">
+                    <a id="whatsapp-link" href="#" target="_blank" class="btn-primary" style="display:block; text-align:center; padding:18px; background:#25D366; text-decoration:none; border-radius: 8px; font-weight: bold; font-size: 1.1rem;">
                         📲 Contactar por WhatsApp
                     </a>
                 </div>
@@ -190,27 +105,15 @@
     <div id="report-modal" class="modal-overlay">
         <div class="modal-box">
             <h3 class="modal-title">🚩 Reportar publicación</h3>
-            <p style="margin-bottom: 15px; color: #666; font-size: 0.9rem;">Selecciona el motivo del reporte. Esto será revisado por nuestro equipo.</p>
-
             <form id="report-form">
-                <label class="report-option">
-                    <input type="radio" name="motivo" value="Información falsa" required> Información falsa
-                </label>
-                <label class="report-option">
-                    <input type="radio" name="motivo" value="Imágenes no claras"> Imágenes no claras
-                </label>
-                <label class="report-option">
-                    <input type="radio" name="motivo" value="Precios falsos"> Precios falsos
-                </label>
-                <label class="report-option">
-                    <input type="radio" name="motivo" value="Otro" id="radio-otro"> Otro (Especifique)
-                </label>
-
-                <textarea id="report-text" class="report-textarea" rows="3" placeholder="Describe el problema aquí..."></textarea>
-
+                <label class="report-option"><input type="radio" name="motivo" value="Información falsa" required> Información falsa</label>
+                <label class="report-option"><input type="radio" name="motivo" value="Imágenes no claras"> Imágenes no claras</label>
+                <label class="report-option"><input type="radio" name="motivo" value="Precios falsos"> Precios falsos</label>
+                <label class="report-option"><input type="radio" name="motivo" value="Otro" id="radio-otro"> Otro (Especifique)</label>
+                <textarea id="report-text" class="report-textarea" rows="3" placeholder="Describe el problema..."></textarea>
                 <div class="modal-actions">
                     <button type="button" class="btn-cancel" id="btn-close-modal">Cancelar</button>
-                    <button type="submit" class="btn-confirm">Enviar Reporte</button>
+                    <button type="submit" class="btn-confirm">Enviar</button>
                 </div>
             </form>
         </div>
@@ -219,7 +122,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getFirestore, doc, getDoc, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-        import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"; // Para saber quién reporta
+        import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyADDo7xxarlsQcZ37ZEQRBaM1U_rVm8ngg",
@@ -236,150 +139,72 @@
 
         const propertyId = new URLSearchParams(window.location.search).get("id");
 
-        // --- LÓGICA DEL MODAL ---
+        // Lógica Modal
         const modal = document.getElementById("report-modal");
         const btnTrigger = document.getElementById("btn-report-trigger");
         const btnClose = document.getElementById("btn-close-modal");
         const reportForm = document.getElementById("report-form");
         const radioOtro = document.getElementById("radio-otro");
         const textArea = document.getElementById("report-text");
-        const radios = document.getElementsByName("motivo");
 
-        // Abrir Modal
-        btnTrigger.addEventListener("click", () => {
-            modal.style.display = "flex";
+        btnTrigger.onclick = () => modal.style.display = "flex";
+        btnClose.onclick = () => { modal.style.display = "none"; reportForm.reset(); textArea.style.display = "none"; };
+
+        document.getElementsByName("motivo").forEach(r => {
+            r.onchange = (e) => textArea.style.display = (e.target.value === "Otro") ? "block" : "none";
         });
 
-        // Cerrar Modal
-        btnClose.addEventListener("click", () => {
-            modal.style.display = "none";
-            reportForm.reset();
-            textArea.style.display = "none";
-        });
-
-        // Mostrar/Ocultar textarea si elige "Otro"
-        radios.forEach(radio => {
-            radio.addEventListener("change", (e) => {
-                if(e.target.value === "Otro") {
-                    textArea.style.display = "block";
-                    textArea.required = true;
-                } else {
-                    textArea.style.display = "none";
-                    textArea.required = false;
-                }
-            });
-        });
-
-        // Enviar Reporte
-        reportForm.addEventListener("submit", async (e) => {
+        reportForm.onsubmit = async (e) => {
             e.preventDefault();
+            const selected = document.querySelector('input[name="motivo"]:checked').value;
+            const motivoFinal = selected === "Otro" ? `Otro: ${textArea.value}` : selected;
+            await addDoc(collection(db, "reports"), {
+                propertyId, motivo: motivoFinal, fecha: new Date(),
+                reportadoPor: auth.currentUser ? auth.currentUser.email : "Anónimo"
+            });
+            alert("Reporte enviado.");
+            modal.style.display = "none";
+        };
 
-            // Obtener motivo seleccionado
-            let motivoFinal = "";
-            const selected = document.querySelector('input[name="motivo"]:checked');
-            if(selected) {
-                if(selected.value === "Otro") {
-                    motivoFinal = "Otro: " + textArea.value;
-                } else {
-                    motivoFinal = selected.value;
-                }
-            }
-
-            try {
-                const btnSubmit = reportForm.querySelector(".btn-confirm");
-                const originalText = btnSubmit.innerText;
-                btnSubmit.innerText = "Enviando...";
-                btnSubmit.disabled = true;
-
-                // Guardar en Firebase (Colección 'reports')
-                // NOTA SOBRE CORREO: Para recibir esto por correo, en el futuro puedes
-                // instalar la extensión 'Trigger Email' de Firebase en la consola
-                // que escucha esta colección 'reports' y envía el mail automáticamente.
-                await addDoc(collection(db, "reports"), {
-                    propertyId: propertyId,
-                    motivo: motivoFinal,
-                    tituloPropiedad: document.getElementById("prop-title").innerText,
-                    precioPropiedad: document.getElementById("prop-price").innerText,
-                    fecha: new Date(),
-                    // Si el usuario que reporta está logueado, guardamos sus datos
-                    reportadoPor: auth.currentUser ? auth.currentUser.email : "Visitante anónimo",
-                    status: "pendiente"
-                });
-
-                alert("✅ Reporte enviado correctamente. Nuestro equipo revisará la publicación.");
-                modal.style.display = "none";
-                reportForm.reset();
-                btnSubmit.innerText = originalText;
-                btnSubmit.disabled = false;
-
-            } catch (error) {
-                console.error("Error reportando:", error);
-                alert("Error al enviar el reporte.");
-            }
-        });
-
-        // --- CARGA DE DATOS DE LA PROPIEDAD ---
         async function load() {
-            if (!propertyId) {
-                alert("No se especificó una propiedad.");
-                window.location.href = "index.html";
-                return;
-            }
+            if (!propertyId) return window.location.href = "index.html";
 
             try {
                 const snap = await getDoc(doc(db, "properties", propertyId));
-
                 if (snap.exists()) {
                     const p = snap.data();
-                    // Actualizar Meta Tags Dinámicamente para compartir
-document.title = `${p.title} - InmoClicRD`;
-document.getElementById("meta-title").setAttribute("content", p.title);
-document.getElementById("meta-desc").setAttribute("content", `RD$ ${Number(p.price).toLocaleString()} - ${p.city}. Haz clic para ver más fotos.`);
 
-if(p.images && p.images.length > 0) {
-    document.getElementById("meta-img").setAttribute("content", p.images[0]);
-}
+                    // Meta Tags
+                    document.title = `${p.title} - InmoClicRD`;
+                    document.getElementById("meta-title").content = p.title;
+                    document.getElementById("meta-desc").content = `RD$ ${Number(p.price).toLocaleString()} - ${p.city}.`;
+                    if(p.images?.length) document.getElementById("meta-img").content = p.images[0];
 
                     document.getElementById("prop-title").innerText = p.title;
                     document.getElementById("prop-price").innerText = `RD$ ${Number(p.price).toLocaleString()}`;
                     document.getElementById("prop-location").innerText = `📍 ${p.city}`;
-                    document.getElementById("prop-desc").innerText = p.desc || "Sin descripción.";
-
+                    document.getElementById("prop-desc").innerText = p.desc || "";
                     document.getElementById("feat-rooms").innerText = `🛏️ ${p.rooms} Hab`;
                     document.getElementById("feat-baths").innerText = `🚿 ${p.baths} Baños`;
                     document.getElementById("feat-parking").innerText = `🚗 ${p.parking} Pq`;
+                    document.getElementById("publisher-name").innerText = p.userName || "Usuario";
 
-                    document.getElementById("publisher-name").innerText = p.userName || "Usuario InmoClic";
+                    // --- CORRECCIÓN WHATSAPP (CÓDIGO PAÍS) ---
+                    let rawNum = p.whatsapp || "8090000000";
+                    let cleanNumber = rawNum.replace(/\D/g, '');
 
-                    // --- CONFIGURACIÓN DE WHATSAPP MEJORADA ---
-const wsNumber = p.whatsapp || "18090000000";
-const cleanNumber = wsNumber.replace(/\D/g, '');
+                    // Si el número es dominicano (10 dígitos) y no tiene el '1', se lo agregamos
+                    if (cleanNumber.length === 10 && (cleanNumber.startsWith('809') || cleanNumber.startsWith('829') || cleanNumber.startsWith('849'))) {
+                        cleanNumber = "1" + cleanNumber;
+                    }
 
-// 1. Obtenemos la URL actual de la página
-const currentURL = window.location.href;
+                    const message = encodeURIComponent(`Hola, vi este anuncio en InmoClicRD:\n*${p.title}*\n💰 RD$ ${Number(p.price).toLocaleString()}\n📍 ${p.city}\n🔗 ${window.location.href}`);
+                    document.getElementById("whatsapp-link").href = `https://wa.me/${cleanNumber}?text=${message}`;
 
-// 2. Formateamos el precio para el mensaje
-const formattedPrice = Number(p.price).toLocaleString();
-
-// 3. Creamos el mensaje personalizado (usamos \n para saltos de línea)
-const message = `Hola, vi este anuncio en InmoClicRD:
-*${p.title}*
-💰 Precio: RD$ ${formattedPrice}
-📍 Ubicación: ${p.city}
-🔗 Link: ${currentURL}
-
-Me interesa más información.`;
-
-// 4. Codificamos el mensaje para que sea válido en una URL
-const encodedMessage = encodeURIComponent(message);
-
-// 5. Asignamos al botón
-document.getElementById("whatsapp-link").href = `https://wa.me/${cleanNumber}?text=${encodedMessage}`;
-
+                    // Galería
                     const mainImg = document.getElementById("main-display");
                     const thumbList = document.getElementById("thumb-list");
-
-                    if(p.images && p.images.length > 0) {
+                    if(p.images?.length) {
                         mainImg.src = p.images[0];
                         p.images.forEach(url => {
                             const img = document.createElement("img");
@@ -388,19 +213,10 @@ document.getElementById("whatsapp-link").href = `https://wa.me/${cleanNumber}?te
                             img.onclick = () => mainImg.src = url;
                             thumbList.appendChild(img);
                         });
-                    } else {
-                        mainImg.src = "https://via.placeholder.com/800x600?text=Sin+Imagen";
                     }
-
-                } else {
-                    document.querySelector(".container").innerHTML = "<h2 style='text-align:center; margin-top:50px;'>Propiedad no encontrada o eliminada.</h2>";
                 }
-            } catch (error) {
-                console.error("Error cargando propiedad:", error);
-                alert("Hubo un error al cargar los datos.");
-            }
+            } catch (error) { console.error(error); }
         }
-
         load();
     </script>
 </body>
