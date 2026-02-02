@@ -2,134 +2,192 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Publicar propiedad | InmoClicRD</title>
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* --- ESTILOS RESPONSIVOS PARA MÓVILES --- */
+
+    /* En PC mantenemos el diseño original */
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+    }
+
+    /* En MÓVIL (Pantallas menores a 768px) cambiamos el diseño */
+    @media (max-width: 768px) {
+      .publish-page {
+        margin: 20px auto !important; /* Menos margen arriba/abajo */
+        padding: 0 10px;
+      }
+
+      .publish-form {
+        padding: 20px 15px !important; /* Relleno interno más pequeño */
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr; /* Una sola columna: todo se apila */
+        gap: 15px;
+      }
+
+      /* Excepción para habitaciones/baños/parqueos:
+         Hacemos que se vean 3 en línea pequeña o 2 y 1, para no ocupar tanto verticalmente */
+      .grid-3-mobile {
+         display: grid;
+         grid-template-columns: 1fr 1fr 1fr; /* Forzar 3 columnas pequeñas */
+         gap: 10px;
+      }
+
+      .publish-hero h2 {
+        font-size: 1.5rem; /* Título más pequeño */
+      }
+
+      .header-content {
+        flex-direction: row;
+        justify-content: space-between;
+      }
+
+      .btn-secondary {
+        font-size: 0.8rem;
+        padding: 8px 12px;
+      }
+    }
+
+    /* Ajustes generales de inputs para celular */
+    input, select, textarea {
+      font-size: 16px !important; /* Evita que el iPhone haga zoom al escribir */
+    }
+  </style>
 </head>
 <body>
 
 <header class="header">
-  <div class="container header-content">
-    <h1 class="logo">InmoClicRD</h1>
-    <a href="index.html" class="btn-secondary">Volver al inicio</a>
+  <div class="container header-content" style="display: flex; justify-content: space-between; align-items: center;">
+    <h1 class="logo" style="font-size: 1.4rem;">InmoClicRD</h1>
+    <a href="index.html" class="btn-secondary">Cancelar</a>
   </div>
 </header>
 
 <main class="container publish-page">
 
-  <section class="publish-hero">
+  <div id="login-warning" style="display: none; text-align: center; background: #fff3cd; color: #856404; padding: 30px; border-radius: 12px; border: 1px solid #ffeeba; margin-bottom: 30px;">
+    <h3 style="margin-bottom: 10px;">🔒 Debes iniciar sesión</h3>
+    <p style="margin-bottom: 20px;">Para publicar una propiedad, necesitas estar registrado e identificado.</p>
+    <a href="login.html" class="btn-primary" style="display: inline-block; text-decoration: none; padding: 10px 20px;">
+      Ir a Iniciar Sesión / Registrarse
+    </a>
+  </div>
+
+  <section class="publish-hero" style="margin-bottom: 20px;">
     <h2>Publica tu propiedad gratis</h2>
-    <p>
-      Llega a personas interesadas y recibe contactos directos por WhatsApp.
-      <strong>Sin comisiones.</strong>
+    <p style="font-size: 0.95rem; color: #666;">
+      Llega a personas interesadas y recibe contactos por WhatsApp.
     </p>
   </section>
 
-  <form id="publish-form" class="publish-form">
-
-    <div class="form-section">
-      <h3>Información básica</h3>
+  <form id="publish-form" class="publish-form" style="display: none;"> <div class="form-section">
+      <h3 style="margin-bottom: 15px; color: var(--secondary);">Información básica</h3>
 
       <label>
         Título del anuncio
-        <input type="text" id="title" placeholder="Ej: Apartamento en alquiler en el centro" required>
+        <input type="text" id="title" placeholder="Ej: Apartamento en el centro..." required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd; margin-bottom: 15px;">
       </label>
 
       <div class="form-grid">
         <label>
           Inmueble
-          <select id="type" required>
+          <select id="type" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
             <option value="">Seleccionar</option>
             <option value="Casa">Casa</option>
             <option value="Apartamento">Apartamento</option>
-            <option value="Habitación">Habitación</option>
-            <option value="Local">Local comercial</option>
+            <option value="Habitacion">Habitacion</option>
+            <option value="Local">Local Comercial</option>
           </select>
         </label>
 
         <label>
           Operación
-          <select id="operation" required>
-            <option value="">Seleccionar</option>
+          <select id="operation" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
             <option value="Alquiler">Alquiler</option>
             <option value="Venta">Venta</option>
           </select>
         </label>
-      </div>
-
-      <div class="form-grid">
-        <label>Ubicación
-          <input type="text" id="city" placeholder="Ej: Santo Domingo Este" required>
-        </label>
 
         <label>
           Precio (RD$)
-          <input type="number" id="price" placeholder="Ej: 17000" required>
-        </label>
-      </div>
-    </div>
-
-    <div class="form-section">
-      <h3>Detalles de la propiedad</h3>
-
-      <div class="form-grid">
-        <label>
-          Habitaciones
-          <input type="number" id="rooms" min="0" value="0">
-        </label>
-
-        <label>
-          Baños
-          <input type="number" id="baths" min="0" value="0">
-        </label>
-
-        <label>
-          Parqueos
-          <input type="number" id="parking" min="0" value="0">
+          <input type="number" id="price" placeholder="Ej: 15000" required min="0" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
         </label>
       </div>
 
-      <label>
+      <div class="form-grid" style="margin-top: 15px;">
+        <label>
+          Provincia
+          <select id="province-select" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+            <option value="">Selecciona Provincia</option>
+            <option value="Santo Domingo">Santo Domingo</option>
+            </select>
+        </label>
+
+        <label>
+          Municipio / Sector
+          <select id="municipality-select" required disabled style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9;">
+            <option value="">Elige Provincia primero</option>
+          </select>
+        </label>
+      </div>
+
+      <div style="margin-top: 20px;">
+          <p style="margin-bottom: 5px; font-weight: bold; font-size: 0.9rem;">Detalles</p>
+          <div class="grid-3-mobile">
+            <label style="text-align: center;">
+              Habitaciones
+              <input type="number" id="rooms" min="0" value="1" style="width: 100%; padding: 10px; text-align: center; border-radius: 8px; border: 1px solid #ddd;">
+            </label>
+            <label style="text-align: center;">
+              Baños
+              <input type="number" id="baths" min="0" value="1" style="width: 100%; padding: 10px; text-align: center; border-radius: 8px; border: 1px solid #ddd;">
+            </label>
+            <label style="text-align: center;">
+              Parqueos
+              <input type="number" id="parking" min="0" value="0" style="width: 100%; padding: 10px; text-align: center; border-radius: 8px; border: 1px solid #ddd;">
+            </label>
+          </div>
+      </div>
+
+      <label style="margin-top: 15px; display: block;">
         Descripción
-        <textarea id="desc" rows="4" placeholder="Describe tu propiedad, condiciones, ubicación, etc."></textarea>
+        <textarea id="desc" rows="5" placeholder="Describe tu propiedad, condiciones, cercanías, etc." style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;"></textarea>
       </label>
     </div>
 
     <div class="form-section">
-      <h3>Imagen de portada</h3>
-      <label>Imágenes de la propiedad (Mínimo 1)</label>
-      <input type="file" id="prop-images" accept="image/*" multiple required>
+      <h3 style="margin-bottom: 10px; color: var(--secondary);">Fotos</h3>
+      <label>Sube las mejores fotos (Mínimo 1)</label>
+      <input type="file" id="prop-images" accept="image/*" multiple required style="margin-top: 5px;">
       <div id="image-preview" style="display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;"></div>
     </div>
 
     <div class="form-section">
-      <h3>Contacto Directo</h3>
+      <h3 style="margin-bottom: 10px; color: var(--secondary);">Contacto</h3>
       <label>
         Número de WhatsApp
-        <input type="tel" id="whatsapp" placeholder="Ej: 18091234567" required>
+        <input type="tel" id="whatsapp" placeholder="Ej: 18091234567" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
       </label>
-      <p class="form-hint">
-        Tu número se usará para que los interesados te escriban directamente.
+      <p class="form-hint" style="font-size: 0.8rem; color: #777; margin-top: 5px;">
+        Este número aparecerá en el botón de contacto.
       </p>
     </div>
 
     <div class="publish-actions">
-      <button type="submit" class="btn-primary btn-large" style="width: 100%; padding: 15px; font-size: 1.1rem;">
+      <button type="submit" class="btn-primary btn-large" style="width: 100%; padding: 15px; font-size: 1.1rem; border-radius: 8px; border: none; cursor: pointer;">
         🚀 Publicar ahora
       </button>
-      <p style="text-align: center; margin-top: 15px; font-size: 0.8rem; color: #666;">
-        Al publicar, aceptas nuestros términos y condiciones de seguridad.
-      </p>
     </div>
 
   </form>
-</main>
 
-<footer class="footer">
-  <div class="footer-bottom">
-    © 2026 InmoClicRD · República Dominicana
-  </div>
-</footer>
+</main>
 
 <script type="module" src="publicar.js"></script>
 

@@ -5,59 +5,230 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Quiénes somos | InmoClicRD</title>
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* --- ESTILOS ESPECÍFICOS PARA ABOUT --- */
+
+    .about-container {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    /* Hero Section */
+    .about-hero {
+      background: linear-gradient(135deg, var(--secondary) 0%, #2c3e50 100%);
+      color: white;
+      text-align: center;
+      padding: 80px 20px;
+      border-radius: 12px;
+      margin-bottom: 50px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-hero::before {
+      content: '🇩🇴';
+      font-size: 10rem;
+      position: absolute;
+      top: -20px;
+      right: -20px;
+      opacity: 0.1;
+      transform: rotate(15deg);
+    }
+
+    .about-hero h2 {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      font-weight: 700;
+    }
+
+    .about-hero p {
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin: 0 auto;
+      opacity: 0.9;
+      line-height: 1.6;
+    }
+
+    /* Grid de Historia y Misión */
+    .mission-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 60px;
+      align-items: center;
+    }
+
+    .mission-text h3 {
+      font-size: 1.8rem;
+      color: var(--secondary);
+      margin-bottom: 15px;
+    }
+
+    .mission-text p {
+      color: #555;
+      line-height: 1.8;
+      font-size: 1.05rem;
+      margin-bottom: 15px;
+    }
+
+    .mission-card {
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      border-left: 5px solid var(--primary);
+    }
+
+    /* Sección de Valores (Grid de 4) */
+    .values-section {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .values-section h3 {
+      font-size: 2rem;
+      margin-bottom: 30px;
+      color: #333;
+    }
+
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .value-card {
+      background: white;
+      padding: 30px 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      transition: transform 0.2s;
+      border: 1px solid #eee;
+    }
+
+    .value-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      border-color: var(--primary);
+    }
+
+    .value-icon {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      display: block;
+    }
+
+    .value-card h4 {
+      margin-bottom: 10px;
+      color: var(--secondary);
+    }
+
+    /* Sección Local Highlight */
+    .local-highlight {
+      background: #f0f7ff;
+      border-radius: 12px;
+      padding: 50px;
+      text-align: center;
+      border: 1px dashed #bdddfd;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .mission-grid {
+        grid-template-columns: 1fr;
+      }
+      .about-hero h2 {
+        font-size: 2rem;
+      }
+    }
+  </style>
 </head>
 <body>
 
 <header class="header">
-  <div class="container header-content">
-    <h1 class="logo">InmoClicRD</h1>
-    <nav>
-      <a href="index.html" class="btn-outline">Inicio</a>
-    </nav>
+  <div class="container header-content" style="display: flex; justify-content: space-between; align-items: center;">
+    <a href="index.html" class="logo" style="font-size: 1.5rem; font-weight: bold; color: white; text-decoration: none;">InmoClicRD</a>
+    <a href="index.html" class="btn-secondary">Volver al Inicio</a>
   </div>
 </header>
 
-<main class="container about">
+<main class="about-container">
 
   <section class="about-hero">
-    <h2>Conectamos personas con hogares de forma segura</h2>
+    <h2>El hogar que buscas, sin complicaciones</h2>
     <p>
-      InmoClicRD nace para facilitar la búsqueda y publicación de alquileres
-      y propiedades en República Dominicana, de manera clara, rápida y confiable.
+      Nacimos para transformar el mercado inmobiliario dominicano, haciéndolo más transparente, rápido y accesible para todos.
     </p>
   </section>
 
-  <section class="about-section">
-    <h3>¿Por qué existimos?</h3>
-    <p>
-      Encontrar una vivienda en República Dominicana puede ser confuso,
-      riesgoso y costoso. Nuestro objetivo es reducir intermediarios innecesarios
-      y conectar directamente a propietarios, agentes y personas que buscan un hogar.
-    </p>
+  <section class="mission-grid">
+    <div class="mission-text">
+      <h3>🚀 ¿Por qué existimos?</h3>
+      <p>
+        Sabemos que encontrar vivienda en República Dominicana puede ser un proceso confuso, lleno de intermediarios innecesarios y falta de información clara.
+      </p>
+      <p>
+        En <strong>InmoClicRD</strong>, creemos que alquilar o comprar no debería ser un dolor de cabeza. Eliminamos las barreras para que puedas conectar directamente con quien tiene la llave de tu próximo hogar.
+      </p>
+    </div>
+    <div class="mission-card">
+      <h3 style="color: var(--primary); margin-bottom: 10px;">Nuestra Meta</h3>
+      <p style="font-size: 1.1rem; color: #444;">
+        "Crear la comunidad inmobiliaria más segura y fácil de usar del país, donde cada dominicano pueda publicar o encontrar su espacio ideal con un solo clic."
+      </p>
+    </div>
   </section>
 
-  <section class="about-section">
-    <h3>Nuestro compromiso</h3>
-    <ul>
-      <li>✔️ Publicaciones claras y verificadas</li>
-      <li>✔️ Contacto directo con propietarios o agentes</li>
-      <li>✔️ Transparencia en la información</li>
-      <li>✔️ Soporte humano y local</li>
-    </ul>
+  <section class="values-section">
+    <h3>Nuestro Compromiso Contigo</h3>
+    <div class="values-grid">
+
+      <div class="value-card">
+        <span class="value-icon">🔍</span>
+        <h4>Transparencia</h4>
+        <p style="font-size: 0.9rem; color: #666;">Información clara, fotos reales y precios sin sorpresas ocultas.</p>
+      </div>
+
+      <div class="value-card">
+        <span class="value-icon">💬</span>
+        <h4>Trato Directo</h4>
+        <p style="font-size: 0.9rem; color: #666;">Conecta directamente por WhatsApp con el propietario o agente.</p>
+      </div>
+
+      <div class="value-card">
+        <span class="value-icon">🛡️</span>
+        <h4>Seguridad</h4>
+        <p style="font-size: 0.9rem; color: #666;">Validamos usuarios y ofrecemos herramientas para reportar irregularidades.</p>
+      </div>
+
+      <div class="value-card">
+        <span class="value-icon">🇩🇴</span>
+        <h4>100% Local</h4>
+        <p style="font-size: 0.9rem; color: #666;">Una plataforma hecha por dominicanos, entendiendo nuestras necesidades.</p>
+      </div>
+
+    </div>
   </section>
 
-  <section class="about-section highlight">
-    <h3>Estamos en República Dominicana</h3>
-    <p>
-      InmoClicRD es un proyecto local, enfocado en resolver un problema real
-      del mercado inmobiliario dominicano.
+  <section class="local-highlight">
+    <h3 style="color: var(--secondary); margin-bottom: 15px;">Orgullosamente Dominicanos 🌴</h3>
+    <p style="max-width: 600px; margin: 0 auto; color: #555;">
+      InmoClicRD es un proyecto independiente enfocado en resolver problemas reales de nuestra gente. No somos una franquicia internacional; somos tu vecino ayudándote a mudarte.
     </p>
   </section>
 
 </main>
 
-<footer class="footer">
-  <p>© 2026 InmoClicRD · Plataforma inmobiliaria en República Dominicana</p>
+<footer class="footer" style="background: var(--secondary); color: white; padding: 30px 0; margin-top: 50px;">
+  <div class="container" style="text-align: center;">
+    <h3 style="margin-bottom: 10px;">InmoClicRD</h3>
+    <p style="opacity: 0.8; font-size: 0.9rem;">Construyendo confianza, un clic a la vez.</p>
+    <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.85rem;">
+      © 2026 InmoClicRD · Todos los derechos reservados
+    </div>
+  </div>
 </footer>
 
 </body>

@@ -37,11 +37,11 @@ body {
 .header {
   background: var(--secondary);
   color: var(--white);
-  padding: 0.5rem 0; /* Más delgado aún */
+  padding: 0.5rem 0;
   position: sticky;
   top: 0;
   z-index: 1000;
-  height: 70px; /* Altura fija para evitar que crezca */
+  height: 70px;
   display: flex;
   align-items: center;
 }
@@ -55,12 +55,11 @@ body {
 
 .header-actions {
   display: flex;
-  flex-direction: row; /* Siempre en fila horizontal */
+  flex-direction: row;
   align-items: center;
   gap: 15px;
 }
 
-/* Contenedor de Info de Usuario (Nombre + Punto) */
 .user-status-block {
   display: flex;
   align-items: center;
@@ -74,10 +73,9 @@ body {
   color: white;
   font-size: 0.9rem;
   font-weight: 500;
-  cursor: default; /* No parece link */
+  cursor: default;
 }
 
-/* Links que no parecen links */
 .nav-link-custom {
   text-decoration: none !important;
   color: rgba(255, 255, 255, 0.8) !important;
@@ -92,10 +90,9 @@ body {
 }
 
 .logout-text {
-  color: #ff7675 !important; /* Rojo suave para salir */
+  color: #ff7675 !important;
 }
 
-/* Punto Online */
 .online-dot {
   width: 8px;
   height: 8px;
@@ -104,7 +101,6 @@ body {
   box-shadow: 0 0 5px #1dd1a1;
 }
 
-/* Responsivo: En móvil ocultamos el nombre si es muy largo */
 @media (max-width: 480px) {
   .user-name-text {
     max-width: 70px;
@@ -115,22 +111,41 @@ body {
   .header-actions { gap: 8px; }
 }
 
-/* Ajuste específico para el botón volver */
-.header .btn-secondary {
-  padding: 6px 15px; /* Más compacto en el header */
-  font-size: 14px;
+/* =========================================
+   3. FILTROS (MODIFICADO: Tamaños controlados)
+   ========================================= */
+.filters {
+  background: var(--white);
+  padding: 20px 0;
+  border-bottom: 1px solid #e5e7eb;
 }
 
-.header-actions {
+.filters-content {
   display: flex;
-  gap: 10px;
-  align-items: center;
-  /* Eliminamos el width 100% que causaba el salto de línea */
-  width: auto;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center; /* Centrados en escritorio */
+}
+
+.filters-content select {
+  width: 180px;
+  padding: 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  outline: none;
+  background: #fdfdfd;
+}
+
+@media (max-width: 600px) {
+  .filters-content select {
+    width: 100%;
+    max-width: none;
+  }
 }
 
 /* =========================================
-   3. BOTONES
+   4. BOTONES
    ========================================= */
 .btn-primary, .btn-secondary, .btn-login, .btn-outline {
   padding: 10px 20px;
@@ -163,105 +178,6 @@ body {
   width: 100%;
 }
 
-/* Contenedor Principal de Filtros */
-.filters-layout {
-    display: flex;
-    align-items: flex-end; /* Alinea todo al fondo para que el botón y los inputs casen */
-    gap: 15px;
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-.price-inputs-wrapper {
-    display: flex;
-    flex-direction: column; /* Apila Min y Max */
-    gap: 4px;
-}
-
-.price-inputs-wrapper input {
-    width: 110px;
-    height: 32px;
-    padding: 5px;
-    font-size: 13px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-}
-
-.btn-search {
-    height: 68px; /* Altura combinada de los dos inputs + gap */
-    padding: 0 25px;
-    background: #1dd1a1;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-/* Grupo de Selectores */
-.filter-group {
-  display: flex;
-  gap: 10px;
-  flex: 2; /* Toma más espacio */
-  min-width: 300px;
-}
-
-.filter-group select {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-size: 0.95rem;
-  outline: none;
-  background: #fff;
-}
-
-/* Grupo de Acciones (Botones) */
-.filter-actions {
-  display: flex;
-  gap: 10px;
-  flex: 1;
-  min-width: 200px;
-}
-
-.btn-search {
-  flex: 3; /* El botón buscar es más largo */
-  background: var(--primary);
-  color: white;
-  border: none;
-  padding: 12px;
-  border-radius: 8px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-
-.btn-clear {
-  flex: 1; /* El botón borrar es más corto */
-  background: #f1f2f6;
-  color: #57606f;
-  border: 1px solid #dfe4ea;
-  padding: 12px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 1.1rem;
-}
-
-.btn-search:hover { background: #18b38a; }
-.btn-clear:hover { background: #dfe4ea; }
-
-/* Responsive para Celulares */
-@media (max-width: 768px) {
-  .filters-layout {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  .filter-group {
-    flex-direction: column;
-  }
-}
 /* =========================================
    5. LISTADO DE PROPIEDADES (Grid)
    ========================================= */
@@ -278,6 +194,8 @@ body {
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     overflow: hidden;
     transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
 }
 
 .property-card:hover { transform: translateY(-5px); }
@@ -296,47 +214,60 @@ body {
     font-weight: bold;
 }
 
-.card-content { padding: 15px; }
+.card-content { padding: 15px; flex-grow: 1; }
 .card-title { font-size: 1.1rem; margin: 8px 0; color: #333; }
 .card-price { font-weight: bold; color: #1dd1a1; font-size: 1.1rem; }
 
+.card-author {
+    font-size: 0.8rem;
+    color: #6b7280;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.card-features {
+  display: flex;
+  gap: 15px;
+  font-size: 0.85rem;
+  border-top: 1px solid #eee;
+  padding-top: 10px;
+  margin-bottom: 15px;
+}
+
 /* =========================================
-   6. DETALLE DE PROPIEDAD (PÁGINA PROPERTY)
+   6. DETALLE DE PROPIEDAD
    ========================================= */
 .property-detail {
   display: grid;
-  grid-template-columns: 1fr; /* Una columna en móvil */
+  grid-template-columns: 1fr;
   gap: 30px;
   margin: 30px auto;
 }
 
 @media (min-width: 992px) {
   .property-detail {
-    grid-template-columns: 1.2fr 1fr; /* Dos columnas en pantallas grandes */
+    grid-template-columns: 1.2fr 1fr;
   }
 }
 
-.gallery-main img {
+.gallery-main img, .main-image-container img {
   width: 100%;
-  height: 300px;
-  object-size: contain;
-  background: #eee;
+  height: 450px;
+  object-fit: cover;
   border-radius: var(--radius);
-}
-
-@media (min-width: 768px) {
-  .gallery-main img { height: 450px; }
 }
 
 .gallery-thumbs {
   display: flex;
   gap: 10px;
   margin-top: 15px;
-  overflow-x: auto; /* Scroll lateral en móviles */
+  overflow-x: auto;
   padding-bottom: 10px;
 }
 
-.gallery-thumbs img {
+.thumb {
   width: 80px;
   height: 60px;
   object-fit: cover;
@@ -345,25 +276,34 @@ body {
   opacity: 0.6;
   border: 2px solid transparent;
   flex-shrink: 0;
+  transition: 0.3s;
 }
 
-.gallery-thumbs img.active {
+.thumb:hover, .thumb.active {
   opacity: 1;
-  border-color: var(--secondary);
+  border-color: var(--primary);
 }
 
-.features {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-  margin: 20px 0;
+.author-info-box {
+    background: #f8fafc;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    border-left: 4px solid var(--primary);
 }
 
-.features span {
-  background: #e5e7eb;
-  padding: 8px 15px;
-  border-radius: 20px;
-  font-size: 0.9rem;
+.author-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: #64748b;
+    font-weight: bold;
+    display: block;
+}
+
+.author-name {
+    font-size: 1rem;
+    color: var(--secondary);
+    font-weight: 600;
 }
 
 /* =========================================
@@ -422,6 +362,28 @@ body {
   .footer-content { grid-template-columns: 2fr 1fr 1fr; }
 }
 
+.footer-column-links {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.footer-nav-item {
+    text-decoration: none !important;
+    color: #9ca3af !important;
+    font-size: 0.95rem;
+    font-weight: 400;
+    transition: all 0.3s ease;
+    display: inline-block;
+    width: fit-content;
+}
+
+.footer-nav-item:hover {
+    color: var(--primary) !important;
+    transform: translateX(5px);
+}
+
 .footer-bottom {
   background: #000;
   text-align: center;
@@ -430,7 +392,7 @@ body {
 }
 
 /* =========================================
-   8. MODAL
+   8. MODALES Y AUTH
    ========================================= */
 .modal {
   position: fixed;
@@ -451,6 +413,19 @@ body {
   width: 100%;
   text-align: center;
 }
+
+.auth-input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+/* =========================================
+   9. PÁGINA PUBLICAR
+   ========================================= */
 .publish-page {
   max-width: 800px;
   margin: 60px auto;
@@ -459,11 +434,6 @@ body {
 .publish-hero {
   text-align: center;
   margin-bottom: 40px;
-}
-
-.publish-hero h2 {
-  font-size: 2rem;
-  margin-bottom: 10px;
 }
 
 .publish-form {
@@ -477,9 +447,10 @@ body {
   margin-bottom: 30px;
 }
 
-.form-section h3 {
-  margin-bottom: 15px;
-  font-size: 1.1rem;
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
 }
 
 label {
@@ -488,9 +459,7 @@ label {
   margin-bottom: 12px;
 }
 
-input,
-select,
-textarea {
+input, select, textarea {
   width: 100%;
   padding: 10px;
   margin-top: 6px;
@@ -498,23 +467,6 @@ textarea {
   border: 1px solid #ccc;
 }
 
-.form-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 15px;
-}
-
-.form-hint {
-  font-size: 0.8rem;
-  color: #666;
-  margin-top: 6px;
-}
-
-.btn-large {
-  width: 100%;
-  padding: 14px;
-  font-size: 1rem;
-}
 .btn-report {
   width: 100%;
   margin-top: 15px;
@@ -532,32 +484,6 @@ textarea {
   background: #e74c3c;
   color: #fff;
 }
-.auth-input {
-  width: 100%;
-  padding: 12px;
-  margin: 10px 0;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-size: 1rem;
-}
-
-.auth-switch {
-  margin-top: 20px;
-  font-size: 0.9rem;
-  color: #555;
-}
-
-.auth-switch a {
-  color: var(--primary);
-  font-weight: bold;
-  text-decoration: none;
-}
-
-.btn-logged {
-  background: #f8d7da !important;
-  color: #721c24 !important;
-  border: 1px solid #f5c6cb !important;
-}
 
 .btn-details {
   display: block;
@@ -570,131 +496,4 @@ textarea {
   border-radius: 8px;
   font-weight: bold;
   margin-top: 15px;
-}
-/* Indicador Online */
-.user-info {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: rgba(255,255,255,0.1);
-  padding: 5px 15px;
-  border-radius: 20px;
-}
-
-.online-dot {
-  width: 10px;
-  height: 10px;
-  background-color: #1dd1a1;
-  border-radius: 50%;
-  box-shadow: 0 0 8px #1dd1a1;
-}
-
-/* Notificación de éxito */
-.toast-success {
-  background: #1dd1a1;
-  color: white;
-  padding: 15px 25px;
-  border-radius: 8px;
-  margin-top: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  animation: slideIn 0.3s ease-out;
-}
-
-@keyframes slideIn {
-  from { transform: translateX(100%); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
-}
-/* Contenedor de acciones del usuario en el Header */
-.user-menu-container {
-    display: flex;
-    flex-direction: column; /* Coloca uno debajo del otro */
-    align-items: flex-end; /* Alinea a la derecha */
-    gap: 8px;
-}
-
-/* Estilo para los botones/links del menú */
-.user-menu-item {
-    text-decoration: none !important; /* Quita el subrayado */
-    color: white !important;
-    font-size: 0.9rem;
-    padding: 5px 10px;
-    border-radius: 6px;
-    transition: background 0.3s;
-    display: block;
-    width: fit-content;
-}
-
-.user-menu-item:hover {
-    background: rgba(255, 255, 255, 0.1);
-}
-
-/* Ajuste del botón salir para que no parezca link */
-.btn-logout {
-    color: #ff7675 !important; /* Un rojo suave para identificar salir */
-    font-weight: bold;
-    cursor: pointer;
-}
-
-/* Punto verde Online */
-.online-dot {
-    width: 10px;
-    height: 10px;
-    background: #1dd1a1;
-    border-radius: 50%;
-    box-shadow: 0 0 8px #1dd1a1;
-}
-/* Estilo específico para la columna de enlaces en el footer */
-.footer-column-links {
-    display: flex;
-    flex-direction: column; /* Alineación vertical (uno debajo de otro) */
-    gap: 12px;              /* Espacio entre cada enlace */
-    margin-top: 15px;
-}
-
-/* El enlace en sí, eliminando el estilo de link tradicional */
-.footer-nav-item {
-    text-decoration: none !important; /* Quita el subrayado */
-    color: #9ca3af !important;        /* Color gris suave para que no brille */
-    font-size: 0.95rem;
-    font-weight: 400;
-    transition: all 0.3s ease;
-    display: inline-block;
-    width: fit-content;               /* El área de clic se ajusta al texto */
-}
-
-/* Efecto al pasar el mouse */
-.footer-nav-item:hover {
-    color: var(--primary) !important; /* Cambia al color verde de tu marca */
-    transform: translateX(5px);       /* Se mueve ligeramente a la derecha */
-}
-
-.main-image-container img {
-    width: 100%;
-    height: 450px;
-    object-fit: cover;
-    border-radius: 12px;
-}
-
-.gallery-thumbs {
-    display: flex;
-    gap: 10px;
-    margin-top: 15px;
-    overflow-x: auto;
-    padding-bottom: 5px;
-}
-
-.thumb {
-    width: 80px;
-    height: 60px;
-    object-fit: cover;
-    border-radius: 6px;
-    cursor: pointer;
-    opacity: 0.6;
-    transition: 0.3s;
-    border: 2px solid transparent;
-}
-
-.thumb:hover, .thumb.active {
-    opacity: 1;
-    border-color: var(--primary);
 }

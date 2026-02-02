@@ -18,35 +18,44 @@
         <span class="online-dot"></span>
       </div>
 
-      <a href="#" class="btn-login" id="login-btn">Iniciar sesión</a>
+      <a href="login.html" class="btn-login" id="login-btn">Iniciar sesión</a>
       <a href="publicar.html" class="btn-primary">Publicar propiedad</a>
     </nav>
   </div>
 </header>
 
 <section class="filters">
-  <div class="container filters-content">
-    <select id="filter-type">
-      <option value="">Tipo de inmueble</option>
+  <section class="filters" style="background: white; padding: 20px 0; border-bottom: 1px solid #eee;">
+  <div class="container filters-content" style="display: flex; flex-wrap: wrap; gap: 15px; align-items: center;">
+
+    <select id="filter-type" style="padding: 10px; border-radius: 8px; border: 1px solid #ddd; flex: 1; min-width: 150px;">
+      <option value="">🏡 Tipo (Todos)</option>
       <option value="Casa">Casa</option>
       <option value="Apartamento">Apartamento</option>
-      <option value="Habitación">Habitación</option>
+      <option value="Habitacion">Habitacion</option>
+      <option value="Local">Local Comercial</option>
     </select>
 
-    <select id="filter-city">
-      <option value="">Ubicación</option>
+    <select id="filter-province" style="padding: 10px; border-radius: 8px; border: 1px solid #ddd; flex: 1; min-width: 150px;">
+      <option value="">📍 Provincia (Todas)</option>
       <option value="Santo Domingo">Santo Domingo</option>
-      <option value="Santiago">Santiago</option>
+      </select>
+
+    <select id="filter-municipality" disabled style="padding: 10px; border-radius: 8px; border: 1px solid #ddd; flex: 1; min-width: 150px; background-color: #f9f9f9;">
+      <option value="">Selecciona Provincia primero</option>
     </select>
 
-    <div class="price-inputs">
-      <input type="number" id="filter-min-price" placeholder="Mín (RD$)">
-      <input type="number" id="filter-max-price" placeholder="Máx (RD$)">
-    </div>
+    <input type="number" id="filter-min-price" placeholder="💰 Min"
+           style="padding: 10px; border-radius: 8px; border: 1px solid #ddd; width: 100px;">
 
-    <button class="btn-primary" id="btnSearch">Buscar</button>
-    <button class="btn-outline" id="btn-clear">Limpiar</button>
+    <input type="number" id="filter-max-price" placeholder="💰 Max"
+           style="padding: 10px; border-radius: 8px; border: 1px solid #ddd; width: 100px;">
+
+    <button id="btn-clear-filters" class="btn-secondary" style="padding: 10px 15px; font-size: 0.9rem;">
+      Limpiar
+    </button>
   </div>
+</section>
 </section>
 
 <main class="container">
@@ -89,13 +98,14 @@
         <a href="index.html" class="footer-nav-item">Inicio</a>
         <a href="publicar.html" class="footer-nav-item">Publicar Propiedad</a>
         <a href="confianza.html" class="footer-nav-item">Confianza y Seguridad</a>
+        <a href="about.html" class="footer-nav-item">Acerca de nosotros</a>
       </div>
     </div>
 
     <div class="footer-contact">
       <h4>Contacto</h4>
       <p>📍 República Dominicana</p>
-      <p>📞 WhatsApp: +1 809 000 0000</p>
+      <p>📞 WhatsApp: +1 829 514 7589</p>
     </div>
   </div>
   <div class="footer-bottom">

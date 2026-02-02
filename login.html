@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Iniciar Sesión | InmoClicRD</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Estilos específicos para esta página */
+    .auth-page {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 80vh;
+      background-color: var(--light);
+    }
+    .auth-container {
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+    .auth-logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: var(--secondary);
+      margin-bottom: 20px;
+      display: block;
+      text-decoration: none;
+    }
+    .auth-input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+    .btn-full {
+      width: 100%;
+      margin-top: 10px;
+    }
+    .auth-toggle {
+      margin-top: 20px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+    .auth-toggle a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    #error-msg {
+      color: #e74c3c;
+      background: #fde8e8;
+      padding: 10px;
+      border-radius: 6px;
+      margin-bottom: 15px;
+      font-size: 0.9rem;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="container header-content">
+    <a href="index.html" class="logo">InmoClicRD</a>
+    <a href="index.html" class="btn-secondary">Volver al Inicio</a>
+  </div>
+</header>
+
+<main class="auth-page">
+  <div class="auth-container">
+    <a href="index.html" class="auth-logo">InmoClicRD</a>
+    <h2 id="form-title" style="margin-bottom: 20px;">Iniciar Sesión</h2>
+
+    <div id="error-msg"></div>
+
+    <form id="auth-form">
+      <input type="text" id="auth-name" class="auth-input" placeholder="Nombre completo" style="display: none;">
+      <input type="email" id="auth-email" class="auth-input" placeholder="Correo electrónico" required>
+      <input type="password" id="auth-password" class="auth-input" placeholder="Contraseña" required>
+
+      <button type="submit" id="submit-btn" class="btn-primary btn-full">Entrar</button>
+    </form>
+
+    <div class="auth-toggle">
+      <span id="toggle-text">¿No tienes cuenta?</span>
+      <a id="toggle-link">Regístrate aquí</a>
+    </div>
+  </div>
+</main>
+
+<script type="module" src="login.js"></script>
+
+</body>
+</html>

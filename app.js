@@ -1,7 +1,8 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getFirestore, collection, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
+// --- CONFIGURACIÓN DE FIREBASE ---
 const firebaseConfig = {
     apiKey: "AIzaSyADDo7xxarlsQcZ37ZEQRBaM1U_rVm8ngg",
     authDomain: "inmoclicrd-e58e8.firebaseapp.com",
@@ -15,135 +16,232 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
-// --- ELEMENTOS DE LA UI ---
+// ==========================================
+// DATOS DE UBICACIÓN (Provincias y Municipios)
+// ==========================================
+const cityData = {
+    "Santo Domingo": [
+        "Distrito Nacional",
+        "Santo Domingo Este",
+        "Santo Domingo Norte",
+        "Santo Domingo Oeste"
+    ]
+    // Aquí puedes agregar "Santiago": ["Santiago de los Caballeros", ...], etc.
+};
+
+// ==========================================
+// SECCIÓN 1: GESTIÓN DE USUARIO (HEADER)
+// ==========================================
 const loginBtn = document.getElementById("login-btn");
-const authModal = document.getElementById("auth-modal");
-const authForm = document.getElementById("auth-form");
-const authTitle = document.getElementById("auth-title");
-const authSubmitBtn = document.getElementById("auth-submit-btn");
-const toggleAuthLink = document.getElementById("toggle-auth");
-const closeAuthBtn = document.getElementById("close-auth");
-const nameInput = document.getElementById("auth-name");
 const userInfo = document.getElementById("user-info");
 const userDisplayName = document.getElementById("user-display-name");
-const propertiesGrid = document.getElementById("properties-grid");
 
-let isLoggingIn = true;
-
-// --- GESTIÓN DE ESTADO DE USUARIO (HEADER) ---
 onAuthStateChanged(auth, (user) => {
     if (user) {
-        // Usuario Online
-        userInfo.style.display = "flex";
-        userDisplayName.innerText = user.displayName || user.email.split('@')[0];
-        loginBtn.innerText = "Cerrar Sesión";
-        loginBtn.classList.add("logout-text"); // Clase para el color rojo si existe en tu CSS
+        if(loginBtn) loginBtn.style.display = "none";
+        if(userInfo) {
+            userInfo.style.display = "flex";
+            userDisplayName.innerText = user.displayName || user.email.split('@')[0];
+
+            if (!document.getElementById("logout-btn")) {
+                const logoutBtn = document.createElement("a");
+                logoutBtn.id = "logout-btn";
+                logoutBtn.innerText = "(Cerrar Sesión)";
+                logoutBtn.href = "#";
+                logoutBtn.style.cssText = "color: #f8f9fa; font-size: 0.85rem; margin-left: 15px; text-decoration: underline; cursor: pointer;";
+                logoutBtn.onclick = async (e) => {
+                    e.preventDefault();
+                    await signOut(auth);
+                    window.location.reload();
+                };
+                userInfo.appendChild(logoutBtn);
+            }
+        }
     } else {
-        // Usuario Offline
-        userInfo.style.display = "none";
-        loginBtn.innerText = "Iniciar sesión";
-        loginBtn.classList.remove("logout-text");
+        if(loginBtn) loginBtn.style.display = "inline-block";
+        if(userInfo) userInfo.style.display = "none";
+        if(userDisplayName) userDisplayName.innerText = "";
+        const existingLogout = document.getElementById("logout-btn");
+        if(existingLogout) existingLogout.remove();
     }
 });
 
-// --- LÓGICA DEL MODAL DE AUTENTICACIÓN ---
+// ==========================================
+// SECCIÓN 2: LÓGICA DE PROPIEDADES Y FILTROS
+// ==========================================
 
-// Abrir modal o cerrar sesión
-loginBtn.onclick = (e) => {
-    e.preventDefault();
-    if (auth.currentUser) {
-        signOut(auth);
-    } else {
-        authModal.style.display = "flex";
-    }
-};
+const propertiesGrid = document.getElementById("properties-grid");
 
-// Cerrar modal
-closeAuthBtn.onclick = () => authModal.style.display = "none";
-window.onclick = (e) => { if (e.target == authModal) authModal.style.display = "none"; };
+// Referencias a los inputs
+const filterType = document.getElementById("filter-type");
+const filterProvince = document.getElementById("filter-province"); // Nuevo select
+const filterMunicipality = document.getElementById("filter-municipality"); // Nuevo select
+const filterMinPrice = document.getElementById("filter-min-price");
+const filterMaxPrice = document.getElementById("filter-max-price");
+const btnClear = document.getElementById("btn-clear-filters");
 
-// Cambiar entre Login y Registro
-toggleAuthLink.onclick = (e) => {
-    e.preventDefault();
-    isLoggingIn = !isLoggingIn;
+let allProperties = [];
 
-    if (isLoggingIn) {
-        authTitle.innerText = "Iniciar Sesión";
-        authSubmitBtn.innerText = "Entrar";
-        nameInput.style.display = "none";
-        nameInput.required = false;
-        toggleAuthLink.innerText = "Regístrate aquí";
-        document.querySelector(".auth-switch").firstChild.textContent = "¿No tienes cuenta? ";
-    } else {
-        authTitle.innerText = "Crear Cuenta";
-        authSubmitBtn.innerText = "Registrarse";
-        nameInput.style.display = "block";
-        nameInput.required = true;
-        toggleAuthLink.innerText = "Inicia sesión aquí";
-        document.querySelector(".auth-switch").firstChild.textContent = "¿Ya tienes cuenta? ";
-    }
-};
+// --- LÓGICA DE LISTAS DEPENDIENTES ---
+if (filterProvince && filterMunicipality) {
+    filterProvince.addEventListener("change", (e) => {
+        const selectedProv = e.target.value;
 
-// Enviar Formulario (Login / Registro)
-authForm.onsubmit = async (e) => {
-    e.preventDefault();
-    const email = document.getElementById("auth-email").value;
-    const pass = document.getElementById("auth-password").value;
-    const msg = document.getElementById("auth-msg");
+        // Limpiar municipios anteriores
+        filterMunicipality.innerHTML = '<option value="">📍 Municipio (Todos)</option>';
 
-    try {
-        if (isLoggingIn) {
-            // LOGIN
-            await signInWithEmailAndPassword(auth, email, pass);
+        if (selectedProv && cityData[selectedProv]) {
+            // Habilitar y llenar
+            filterMunicipality.disabled = false;
+            filterMunicipality.style.backgroundColor = "white";
+
+            cityData[selectedProv].forEach(mun => {
+                const option = document.createElement("option");
+                option.value = mun;
+                option.innerText = mun;
+                filterMunicipality.appendChild(option);
+            });
         } else {
-            // REGISTRO
-            const name = nameInput.value;
-            const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
-            await updateProfile(userCredential.user, { displayName: name });
+            // Deshabilitar si no hay provincia
+            filterMunicipality.disabled = true;
+            filterMunicipality.style.backgroundColor = "#f9f9f9";
+            filterMunicipality.innerHTML = '<option value="">Selecciona Provincia primero</option>';
         }
-        authModal.style.display = "none";
-        authForm.reset();
-        msg.style.display = "none";
-    } catch (err) {
-        msg.innerText = "Error: " + err.message;
-        msg.style.display = "block";
-    }
-};
 
-// --- CARGAR PROPIEDADES EN EL GRID ---
+        // Aplicar filtro al cambiar provincia
+        applyFilters();
+    });
+
+    filterMunicipality.addEventListener("change", applyFilters);
+}
+
+// --- CARGA DE DATOS ---
 function loadProperties() {
-    if (!propertiesGrid) return;
+    if(!propertiesGrid) return;
+
     const q = query(collection(db, "properties"), orderBy("createdAt", "desc"));
 
     onSnapshot(q, (snapshot) => {
-        propertiesGrid.innerHTML = "";
+        allProperties = [];
         snapshot.forEach((doc) => {
-            const p = doc.data();
-            const id = doc.id;
-            const mainPhoto = (p.images && p.images.length > 0) ? p.images[0] : 'https://via.placeholder.com/400x300';
-
-            const card = document.createElement("div");
-            card.className = "property-card";
-            card.innerHTML = `
-                <div class="card-image">
-                    <img src="${mainPhoto}" alt="${p.title}" loading="lazy">
-                    <div class="badge">${p.operation || 'Disponible'}</div>
-                </div>
-                <div class="card-content">
-                    <span class="card-price">RD$ ${Number(p.price).toLocaleString()}</span>
-                    <h3 class="card-title">${p.title}</h3>
-                    <p class="card-location">📍 ${p.city}</p>
-                    <div class="card-features">
-                        <span>🛏️ ${p.rooms} Hab</span>
-                        <span>🚿 ${p.baths} Baños</span>
-                        <span>🚗 ${p.parking} Pq</span>
-                    </div>
-                    <a href="property.html?id=${id}" class="btn-details">Ver Detalles</a>
-                </div>
-            `;
-            propertiesGrid.appendChild(card);
+            allProperties.push({ id: doc.id, ...doc.data() });
         });
+        applyFilters();
+    }, (error) => {
+        console.error("Error cargando propiedades:", error);
+        propertiesGrid.innerHTML = `<p style='color:red; text-align:center;'>Error: ${error.message}</p>`;
     });
 }
 
+// --- LÓGICA DE FILTRADO ---
+function applyFilters() {
+    if(!propertiesGrid) return;
+
+    // Obtener valores
+    const typeVal = filterType ? filterType.value : "";
+    const minVal = filterMinPrice ? Number(filterMinPrice.value) : 0;
+    const maxVal = filterMaxPrice ? Number(filterMaxPrice.value) : 0;
+
+    // Valores de ubicación
+    const provVal = filterProvince ? filterProvince.value : "";
+    const munVal = filterMunicipality ? filterMunicipality.value : "";
+
+    const filtered = allProperties.filter(p => {
+        // 1. Filtro Tipo
+        const matchesType = typeVal === "" || p.type === typeVal;
+
+        // 2. Filtro Ubicación (Ahora es estricto por selección)
+        // Nota: Asumimos que la propiedad guarda la ciudad/municipio en el campo 'city'
+        let matchesLocation = true;
+        const pCity = (p.city || "").toLowerCase();
+
+        if (munVal !== "") {
+            // Si eligió un municipio específico (ej: "Santo Domingo Este")
+            matchesLocation = pCity.includes(munVal.toLowerCase());
+        } else if (provVal !== "") {
+            // Si solo eligió provincia "Santo Domingo", buscamos cualquier coincidencia de sus municipios
+            // O si la propiedad dice simplemente "Santo Domingo"
+            const municipalities = cityData[provVal] || [];
+            const isInsideProvince = municipalities.some(m => pCity.includes(m.toLowerCase())) || pCity.includes(provVal.toLowerCase());
+            matchesLocation = isInsideProvince;
+        }
+
+        // 3. Filtro Precio
+        const pPrice = Number(p.price) || 0;
+        const matchesMin = minVal === 0 || pPrice >= minVal;
+        const matchesMax = maxVal === 0 || pPrice <= maxVal;
+
+        return matchesType && matchesLocation && matchesMin && matchesMax;
+    });
+
+    renderGrid(filtered);
+}
+
+function renderGrid(properties) {
+    propertiesGrid.innerHTML = "";
+
+    if (properties.length === 0) {
+        propertiesGrid.innerHTML = `
+            <div style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+                <h3>No se encontraron resultados 🔍</h3>
+                <p>Intenta cambiar los filtros de ubicación o precio.</p>
+            </div>`;
+        return;
+    }
+
+    properties.forEach((p) => {
+        const mainPhoto = (p.images && p.images.length > 0) ? p.images[0] : 'https://via.placeholder.com/400x300';
+        const priceFormatted = p.price ? Number(p.price).toLocaleString() : "0";
+
+        const card = document.createElement("div");
+        card.className = "property-card";
+        card.innerHTML = `
+            <div class="card-image">
+                <img src="${mainPhoto}" alt="${p.title}" loading="lazy">
+                <div class="badge">${p.operation || 'Disponible'}</div>
+            </div>
+            <div class="card-content">
+                <span class="card-price">RD$ ${priceFormatted}</span>
+                <h3 class="card-title">${p.title}</h3>
+                <p class="card-location">📍 ${p.city}</p>
+
+                <p style="font-size: 0.85rem; color: #666; margin-bottom: 10px; display: flex; align-items: center; gap: 5px;">
+                    👤 <span style="font-weight: 500;">${p.userName || "Usuario InmoClic"}</span>
+                </p>
+
+                <div class="card-features">
+                    <span>🛏️ ${p.rooms} Hab</span>
+                    <span>🚿 ${p.baths} Baños</span>
+                </div>
+                <a href="property.html?id=${p.id}" class="btn-details">Ver Detalles</a>
+            </div>
+        `;
+        propertiesGrid.appendChild(card);
+    });
+}
+
+// Iniciar
 loadProperties();
+
+// Listeners extra
+if(filterType) filterType.addEventListener("change", applyFilters);
+if(filterMinPrice) filterMinPrice.addEventListener("input", applyFilters);
+if(filterMaxPrice) filterMaxPrice.addEventListener("input", applyFilters);
+
+if(btnClear) {
+    btnClear.addEventListener("click", () => {
+        if(filterType) filterType.value = "";
+        if(filterProvince) {
+            filterProvince.value = "";
+            // Resetear el segundo select también
+            if(filterMunicipality) {
+                filterMunicipality.innerHTML = '<option value="">Selecciona Provincia primero</option>';
+                filterMunicipality.disabled = true;
+                filterMunicipality.style.backgroundColor = "#f9f9f9";
+            }
+        }
+        if(filterMinPrice) filterMinPrice.value = "";
+        if(filterMaxPrice) filterMaxPrice.value = "";
+        applyFilters();
+    });
+}

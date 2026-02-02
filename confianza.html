@@ -5,77 +5,214 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Confianza y Seguridad | InmoClicRD</title>
   <link rel="stylesheet" href="styles.css">
+  <style>
+    /* --- ESTILOS ESPECÍFICOS PARA ESTA PÁGINA --- */
+
+    .trust-container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    /* Encabezado Principal */
+    .trust-hero {
+      background: linear-gradient(135deg, var(--secondary) 0%, #155e96 100%);
+      color: white;
+      text-align: center;
+      padding: 60px 20px;
+      border-radius: 12px;
+      margin-bottom: 40px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+
+    .trust-hero h2 {
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+    }
+
+    .trust-hero p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Tarjetas de Información */
+    .trust-card {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      margin-bottom: 30px;
+      border: 1px solid #eee;
+    }
+
+    .trust-card h3 {
+      color: var(--secondary);
+      font-size: 1.4rem;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .trust-card p {
+      color: #555;
+      line-height: 1.7;
+      margin-bottom: 15px;
+    }
+
+    /* Estilos para listas */
+    .trust-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .trust-list li {
+      margin-bottom: 12px;
+      position: relative;
+      padding-left: 30px;
+      color: #444;
+    }
+
+    .trust-list li::before {
+      content: '✔';
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+      font-weight: bold;
+    }
+
+    /* Sección de Alerta (Lo que NO hacemos) */
+    .alert-card {
+      background: #fff5f5; /* Fondo rojizo suave */
+      border: 1px solid #feb2b2;
+    }
+    .alert-card h3 {
+      color: #c53030;
+    }
+    .alert-card li::before {
+      content: '✖';
+      color: #c53030;
+    }
+
+    /* Sección de Consejos (Verde suave) */
+    .tips-card {
+      background: #f0fff4;
+      border: 1px solid #9ae6b4;
+    }
+    .tips-card h3 {
+      color: #2f855a;
+    }
+
+    /* Iconos grandes */
+    .big-icon {
+      font-size: 3rem;
+      display: block;
+      margin-bottom: 15px;
+    }
+
+    /* Grid para tarjetas pequeñas */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+      .trust-hero {
+        padding: 40px 20px;
+      }
+      .trust-hero h2 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
 </head>
 <body>
 
 <header class="header">
-  <div class="container header-content">
-    <h1 class="logo">InmoClicRD</h1>
-    <nav>
-      <a href="index.html" class="btn-outline">Inicio</a>
-    </nav>
+  <div class="container header-content" style="display: flex; justify-content: space-between; align-items: center;">
+    <a href="index.html" class="logo" style="font-size: 1.5rem; font-weight: bold; color: white; text-decoration: none;">InmoClicRD</a>
+    <a href="index.html" class="btn-secondary">Volver al Inicio</a>
   </div>
 </header>
 
-<main class="about">
+<main class="trust-container">
 
-  <section class="about-hero">
-    <h2>Confianza y Seguridad</h2>
-    <p>Queremos que uses InmoClicRD con tranquilidad y claridad.</p>
+  <section class="trust-hero">
+    <span class="big-icon">🛡️</span>
+    <h2>Tu seguridad es nuestra prioridad</h2>
+    <p>Queremos que alquiles, compres y vendas con total tranquilidad. Aquí te explicamos cómo cuidamos nuestra comunidad.</p>
   </section>
 
-  <section class="about-section">
-    <h3>¿Qué es InmoClicRD?</h3>
+  <section class="trust-card">
+    <h3>🤝 ¿Qué es InmoClicRD?</h3>
     <p>
-      InmoClicRD es una plataforma que conecta directamente a personas que
-      desean alquilar o vender propiedades con personas interesadas, sin
-      intermediarios.
+      Somos una plataforma diseñada para eliminar las barreras del mercado inmobiliario dominicano.
+      Conectamos directamente a propietarios con interesados, haciendo el proceso más rápido y transparente.
     </p>
+    <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-top: 10px;">
+        <strong>Nuestra misión:</strong> Facilitar el acceso a la vivienda eliminando la burocracia innecesaria.
+    </div>
   </section>
 
-  <section class="about-section highlight">
-    <h3>¿Cómo funciona?</h3>
-    <ul>
-      <li>Los propietarios publican sus propiedades.</li>
-      <li>Los interesados contactan directamente por WhatsApp.</li>
-      <li>No manejamos pagos ni contratos.</li>
+  <div class="grid-2">
+      <section class="trust-card">
+        <h3>⚡ ¿Cómo funciona?</h3>
+        <ul class="trust-list">
+          <li>Los propietarios publican gratis.</li>
+          <li>Los interesados ven las fotos y detalles.</li>
+          <li>El contacto es <strong>directo por WhatsApp</strong>.</li>
+          <li>Sin intermediarios ni comisiones ocultas.</li>
+        </ul>
+      </section>
+
+      <section class="trust-card">
+        <h3>✅ ¿Qué son los "Usuarios"?</h3>
+        <p>
+          Cuando veas el sello de un <strong>Nombre de usuario</strong>, significa que el usuario ha confirmado su correo electrónico y tiene un historial limpio en la plataforma.
+        </p>
+        <p style="font-size: 0.9rem; color: #777;">
+          <em>Nota: Aunque verificamos usuarios, siempre recomendamos visitar la propiedad personalmente.</em>
+        </p>
+      </section>
+  </div>
+
+  <section class="trust-card tips-card">
+    <h3>💡 Consejos de seguridad para ti</h3>
+    <p>Sigue estas reglas de oro para evitar estafas en cualquier transacción inmobiliaria:</p>
+    <ul class="trust-list">
+      <li><strong>Nunca envíes dinero por adelantado</strong> sin haber visto la propiedad y firmado un contrato.</li>
+      <li>Visita la propiedad físicamente antes de cerrar cualquier trato.</li>
+      <li>Solicita ver la identificación del propietario (Cédula).</li>
+      <li>Desconfía de ofertas que parecen "demasiado buenas para ser verdad" o precios muy por debajo del mercado.</li>
     </ul>
   </section>
 
-  <section class="about-section">
-    <h3>¿Qué significa “Verificado”?</h3>
-    <p>
-      Una propiedad marcada como <strong>Verificada</strong> indica que el
-      propietario ha pasado por un proceso básico de validación de identidad.
-      Esto no sustituye tu propia verificación personal.
-    </p>
-  </section>
-
-  <section class="about-section">
-    <h3>Consejos de seguridad</h3>
-    <ul>
-      <li>No envíes dinero por adelantado.</li>
-      <li>Visita la propiedad antes de cerrar acuerdos.</li>
-      <li>Verifica documentos y datos del propietario.</li>
-      <li>Desconfía de precios demasiado bajos.</li>
-    </ul>
-  </section>
-
-  <section class="about-section highlight">
-    <h3>¿Qué NO hacemos?</h3>
-    <ul>
-      <li>No cobramos comisiones.</li>
-      <li>No actuamos como intermediarios.</li>
-      <li>No recibimos pagos de ningún tipo.</li>
-      <li>No garantizamos operaciones fuera de la plataforma.</li>
+  <section class="trust-card alert-card">
+    <h3>🚫 Lo que NO hacemos</h3>
+    <p>Para evitar confusiones, ten claro que InmoClicRD es solo el conector:</p>
+    <ul class="trust-list">
+      <li>No cobramos comisiones por alquiler o venta.</li>
+      <li>No recibimos depósitos ni mensualidades.</li>
+      <li>No redactamos contratos legales (eso es entre tú y el dueño).</li>
+      <li>No tenemos agentes inmobiliarios propios que vayan a cobrarte.</li>
     </ul>
   </section>
 
 </main>
 
-<footer class="footer">
-  <div class="footer-bottom">
-    © 2026 InmoClicRD · Plataforma inmobiliaria en República Dominicana
+<footer class="footer" style="background: var(--secondary); color: white; padding: 30px 0; margin-top: 50px;">
+  <div class="container" style="text-align: center;">
+    <h3 style="margin-bottom: 10px;">InmoClicRD</h3>
+    <p style="opacity: 0.8; font-size: 0.9rem;">La forma más fácil de encontrar tu hogar en República Dominicana.</p>
+    <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.85rem;">
+      © 2026 InmoClicRD · Todos los derechos reservados
+    </div>
   </div>
 </footer>
 
